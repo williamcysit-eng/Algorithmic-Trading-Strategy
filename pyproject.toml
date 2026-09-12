@@ -1,0 +1,25 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "earnings-momentum-ensemble"
+version = "0.1.0"
+description = "Point-in-time earnings, momentum, and reversal stock-ranking research"
+requires-python = ">=3.11"
+dependencies = ["numpy>=2.0,<2.4", "pandas>=2.2,<3", "matplotlib>=3.9,<4"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8,<10", "ruff>=0.11,<1"]
+
+[project.scripts]
+stock-ensemble = "stock_ensemble.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["stock_ensemble"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100

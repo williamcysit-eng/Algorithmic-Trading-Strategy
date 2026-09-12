@@ -1,0 +1,36 @@
+{
+  "universe_path": "universe.csv",
+  "data_dir": ".",
+  "output_dir": "../results/sample",
+  "data_start": "2022-01-01",
+  "data_end": "2026-01-01",
+  "features": {
+    "momentum_lookback": 252,
+    "momentum_skip": 21,
+    "volatility_window": 20,
+    "earnings_half_life": 45,
+    "earnings_max_age": 180,
+    "gate_half_life": 10,
+    "min_price": 5.0,
+    "min_dollar_volume": 10000000.0,
+    "min_cross_section": 10
+  },
+  "model": {
+    "train_window": 756,
+    "min_train_dates": 252,
+    "ridge": 0.05
+  },
+  "backtest": {
+    "start": "2025-01-01",
+    "holdout_start": "2025-01-01",
+    "horizons": [
+      1,
+      5,
+      20
+    ],
+    "top_n": 5,
+    "cost_bps": 10.0,
+    "return_mode": "price",
+    "initial_capital": 1000000.0
+  }
+}

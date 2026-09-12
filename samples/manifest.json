@@ -1,0 +1,555 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-09-12T14:43:00.516066+00:00",
+  "requested_start": "2022-01-01",
+  "requested_end_exclusive": "2026-01-01",
+  "actual_price_start": "2022-01-03",
+  "actual_price_end": "2025-12-31",
+  "universe_type": "present-day survivor-selected US equities",
+  "survivor_biased": true,
+  "price_convention": "historical nominal close; split_t is new/old shares on date t",
+  "price_return_formula": "close_t / close_previous * split_t - 1",
+  "earnings_availability": "strictly after filed_date; fiscal_end is not availability",
+  "earnings_scale": "sample std of up to 8 prior observed seasonal changes, min 4; clipped [-5,5]",
+  "limitations": [
+    "Present-day, survivor-selected US equity universe; no historical membership or delisted stocks.",
+    "Yahoo and SEC are revisable public sources, not an institutional point-in-time archive.",
+    "SEC filing dates conservatively lag actual earnings releases; signals require strictly earlier filings.",
+    "Surprise is standardized seasonal profit growth divided by assets, not consensus forecast error; NetIncomeLoss and earnings available to common stockholders are standardized separately.",
+    "SEC concept/coverage gaps produce missing earnings signals, never fabricated fundamentals.",
+    "Yahoo historical nominal prices, volumes and dividends are reconstructed from subsequent splits; unreported corporate actions and vendor errors cannot be independently excluded.",
+    "Price-only returns exclude dividends; adjusted-close returns are a distinct total-return alternative."
+  ],
+  "coverage": {
+    "AAPL": {
+      "events": 65,
+      "concepts": {
+        "NetIncomeLoss": {
+          "income_facts": 316,
+          "asset_facts": 142,
+          "new_quarters": 69,
+          "missing_prior_year": 0,
+          "missing_assets": 0,
+          "insufficient_prior_changes": 4,
+          "zero_scale": 0,
+          "events": 65
+        },
+        "NetIncomeLossAvailableToCommonStockholdersBasic": {
+          "income_facts": 0,
+          "asset_facts": 142,
+          "new_quarters": 0,
+          "missing_prior_year": 0,
+          "missing_assets": 0,
+          "insufficient_prior_changes": 0,
+          "zero_scale": 0,
+          "events": 0
+        }
+      },
+      "selected_concepts": {
+        "NetIncomeLoss": 65
+      },
+      "events_before_end": 62,
+      "first_event": "2010-07-21",
+      "last_event": "2025-10-31",
+      "price_rows": 1003,
+      "first_price": "2022-01-03",
+      "last_price": "2025-12-31",
+      "earnings_gap": false
+    },
+    "AMZN": {
+      "events": 65,
+      "concepts": {
+        "NetIncomeLoss": {
+          "income_facts": 417,
+          "asset_facts": 149,
+          "new_quarters": 69,
+          "missing_prior_year": 0,
+          "missing_assets": 0,
+          "insufficient_prior_changes": 4,
+          "zero_scale": 0,
+          "events": 65
+        },
+        "NetIncomeLossAvailableToCommonStockholdersBasic": {
+          "income_facts": 0,
+          "asset_facts": 149,
+          "new_quarters": 0,
+          "missing_prior_year": 0,
+          "missing_assets": 0,
+          "insufficient_prior_changes": 0,
+          "zero_scale": 0,
+          "events": 0
+        }
+      },
+      "selected_concepts": {
+        "NetIncomeLoss": 65
+      },
+      "events_before_end": 62,
+      "first_event": "2010-07-23",
+      "last_event": "2025-10-31",
+      "price_rows": 1003,
+      "first_price": "2022-01-03",
+      "last_price": "2025-12-31",
+      "earnings_gap": false
+    },
+    "BA": {
+      "events": 65,
+      "concepts": {
+        "NetIncomeLoss": {
+          "income_facts": 313,
+          "asset_facts": 138,
+          "new_quarters": 69,
+          "missing_prior_year": 0,
+          "missing_assets": 0,
+          "insufficient_prior_changes": 4,
+          "zero_scale": 0,
+          "events": 65
+        },
+        "NetIncomeLossAvailableToCommonStockholdersBasic": {
+          "income_facts": 25,
+          "asset_facts": 138,
+          "new_quarters": 6,
+          "missing_prior_year": 0,
+          "missing_assets": 0,
+          "insufficient_prior_changes": 4,
+          "zero_scale": 0,
+          "events": 2
+        }
+      },
+      "selected_concepts": {
+        "NetIncomeLoss": 65
+      },
+      "events_before_end": 62,
+      "first_event": "2010-07-28",
+      "last_event": "2025-10-29",
+      "price_rows": 1003,
+      "first_price": "2022-01-03",
+      "last_price": "2025-12-31",
+      "earnings_gap": false
+    },
+    "BAC": {
+      "events": 64,
+      "concepts": {
+        "NetIncomeLoss": {
+          "income_facts": 226,
+          "asset_facts": 184,
+          "new_quarters": 69,
+          "missing_prior_year": 0,
+          "missing_assets": 1,
+          "insufficient_prior_changes": 4,
+          "zero_scale": 0,
+          "events": 64
+        },
+        "NetIncomeLossAvailableToCommonStockholdersBasic": {
+          "income_facts": 225,
+          "asset_facts": 184,
+          "new_quarters": 69,
+          "missing_prior_year": 0,
+          "missing_assets": 1,
+          "insufficient_prior_changes": 4,
+          "zero_scale": 0,
+          "events": 64
+        }
+      },
+      "selected_concepts": {
+        "NetIncomeLoss": 64
+      },
+      "events_before_end": 61,
+      "first_event": "2010-08-06",
+      "last_event": "2025-10-31",
+      "price_rows": 1003,
+      "first_price": "2022-01-03",
+      "last_price": "2025-12-31",
+      "earnings_gap": false
+    },
+    "CAT": {
+      "events": 61,
+      "concepts": {
+        "NetIncomeLoss": {
+          "income_facts": 42,
+          "asset_facts": 148,
+          "new_quarters": 10,
+          "missing_prior_year": 0,
+          "missing_assets": 0,
+          "insufficient_prior_changes": 4,
+          "zero_scale": 0,
+          "events": 6
+        },
+        "NetIncomeLossAvailableToCommonStockholdersBasic": {
+          "income_facts": 271,
+          "asset_facts": 148,
+          "new_quarters": 59,
+          "missing_prior_year": 0,
+          "missing_assets": 0,
+          "insufficient_prior_changes": 4,
+          "zero_scale": 0,
+          "events": 55
+        }
+      },
+      "selected_concepts": {
+        "NetIncomeLossAvailableToCommonStockholdersBasic": 55,
+        "NetIncomeLoss": 6
+      },
+      "events_before_end": 58,
+      "first_event": "2010-08-26",
+      "last_event": "2025-11-03",
+      "price_rows": 1003,
+      "first_price": "2022-01-03",
+      "last_price": "2025-12-31",
+      "earnings_gap": false
+    },
+    "COST": {
+      "events": 63,
+      "concepts": {
+        "NetIncomeLoss": {
+          "income_facts": 306,
+          "asset_facts": 180,
+          "new_quarters": 67,
+          "missing_prior_year": 0,
+          "missing_assets": 0,
+          "insufficient_prior_changes": 4,
+          "zero_scale": 0,
+          "events": 63
+        },
+        "NetIncomeLossAvailableToCommonStockholdersBasic": {
+          "income_facts": 0,
+          "asset_facts": 180,
+          "new_quarters": 0,
+          "missing_prior_year": 0,
+          "missing_assets": 0,
+          "insufficient_prior_changes": 0,
+          "zero_scale": 0,
+          "events": 0
+        }
+      },
+      "selected_concepts": {
+        "NetIncomeLoss": 63
+      },
+      "events_before_end": 61,
+      "first_event": "2010-12-17",
+      "last_event": "2025-12-17",
+      "price_rows": 1003,
+      "first_price": "2022-01-03",
+      "last_price": "2025-12-31",
+      "earnings_gap": false
+    },
+    "CVX": {
+      "events": 66,
+      "concepts": {
+        "NetIncomeLoss": {
+          "income_facts": 229,
+          "asset_facts": 142,
+          "new_quarters": 70,
+          "missing_prior_year": 0,
+          "missing_assets": 0,
+          "insufficient_prior_changes": 4,
+          "zero_scale": 0,
+          "events": 66
+        },
+        "NetIncomeLossAvailableToCommonStockholdersBasic": {
+          "income_facts": 0,
+          "asset_facts": 142,
+          "new_quarters": 0,
+          "missing_prior_year": 0,
+          "missing_assets": 0,
+          "insufficient_prior_changes": 0,
+          "zero_scale": 0,
+          "events": 0
+        }
+      },
+      "selected_concepts": {
+        "NetIncomeLoss": 66
+      },
+      "events_before_end": 63,
+      "first_event": "2010-05-05",
+      "last_event": "2025-11-06",
+      "price_rows": 1003,
+      "first_price": "2022-01-03",
+      "last_price": "2025-12-31",
+      "earnings_gap": false
+    },
+    "DIS": {
+      "events": 26,
+      "concepts": {
+        "NetIncomeLoss": {
+          "income_facts": 118,
+          "asset_facts": 60,
+          "new_quarters": 30,
+          "missing_prior_year": 0,
+          "missing_assets": 0,
+          "insufficient_prior_changes": 4,
+          "zero_scale": 0,
+          "events": 26
+        },
+        "NetIncomeLossAvailableToCommonStockholdersBasic": {
+          "income_facts": 0,
+          "asset_facts": 60,
+          "new_quarters": 0,
+          "missing_prior_year": 0,
+          "missing_assets": 0,
+          "insufficient_prior_changes": 0,
+          "zero_scale": 0,
+          "events": 0
+        }
+      },
+      "selected_concepts": {
+        "NetIncomeLoss": 26
+      },
+      "events_before_end": 23,
+      "first_event": "2020-05-05",
+      "last_event": "2025-11-13",
+      "price_rows": 1003,
+      "first_price": "2022-01-03",
+      "last_price": "2025-12-31",
+      "earnings_gap": false
+    },
+    "GOOGL": {
+      "events": 40,
+      "concepts": {
+        "NetIncomeLoss": {
+          "income_facts": 144,
+          "asset_facts": 88,
+          "new_quarters": 44,
+          "missing_prior_year": 0,
+          "missing_assets": 0,
+          "insufficient_prior_changes": 4,
+          "zero_scale": 0,
+          "events": 40
+        },
+        "NetIncomeLossAvailableToCommonStockholdersBasic": {
+          "income_facts": 51,
+          "asset_facts": 88,
+          "new_quarters": 14,
+          "missing_prior_year": 0,
+          "missing_assets": 0,
+          "insufficient_prior_changes": 4,
+          "zero_scale": 0,
+          "events": 10
+        }
+      },
+      "selected_concepts": {
+        "NetIncomeLoss": 40
+      },
+      "events_before_end": 37,
+      "first_event": "2016-11-03",
+      "last_event": "2025-10-30",
+      "price_rows": 1003,
+      "first_price": "2022-01-03",
+      "last_price": "2025-12-31",
+      "earnings_gap": false
+    },
+    "GS": {
+      "events": 59,
+      "concepts": {
+        "NetIncomeLoss": {
+          "income_facts": 229,
+          "asset_facts": 208,
+          "new_quarters": 66,
+          "missing_prior_year": 3,
+          "missing_assets": 0,
+          "insufficient_prior_changes": 4,
+          "zero_scale": 0,
+          "events": 59
+        },
+        "NetIncomeLossAvailableToCommonStockholdersBasic": {
+          "income_facts": 228,
+          "asset_facts": 208,
+          "new_quarters": 66,
+          "missing_prior_year": 3,
+          "missing_assets": 0,
+          "insufficient_prior_changes": 4,
+          "zero_scale": 0,
+          "events": 59
+        }
+      },
+      "selected_concepts": {
+        "NetIncomeLoss": 59
+      },
+      "events_before_end": 56,
+      "first_event": "2011-08-09",
+      "last_event": "2025-10-31",
+      "price_rows": 1003,
+      "first_price": "2022-01-03",
+      "last_price": "2025-12-31",
+      "earnings_gap": false
+    }
+  },
+  "sources": {
+    "AAPL": {
+      "yahoo": {
+        "url": "https://query1.finance.yahoo.com/v8/finance/chart/AAPL?period1=1262304000&period2=1789223723&interval=1d&events=div%2Csplits&includeAdjustedClose=true",
+        "fetched_at": "2026-09-12T14:35:24.491832+00:00",
+        "sha256": "bf2ce3067f66cb3639eb291db2bb25d57b1c3eee2d0c26f55df89be92d48f82f",
+        "cache_version": 1,
+        "requested_start": "2010-01-01",
+        "coverage_end_exclusive": "2026-09-12"
+      },
+      "sec": {
+        "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json",
+        "fetched_at": "2026-09-12T14:35:25.187902+00:00",
+        "sha256": "73a86c6aedc31f77cac2ea4df5f80f0b3bd7e6eb58bb4e01444fbedf3afb9c43",
+        "cache_version": 1
+      }
+    },
+    "AMZN": {
+      "yahoo": {
+        "url": "https://query1.finance.yahoo.com/v8/finance/chart/AMZN?period1=1262304000&period2=1789223725&interval=1d&events=div%2Csplits&includeAdjustedClose=true",
+        "fetched_at": "2026-09-12T14:35:25.617116+00:00",
+        "sha256": "268c81187d5095e70b79036a08c5aaeb8a58db5791d235523040d1a8424f82d3",
+        "cache_version": 1,
+        "requested_start": "2010-01-01",
+        "coverage_end_exclusive": "2026-09-12"
+      },
+      "sec": {
+        "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
+        "fetched_at": "2026-09-12T14:35:26.254085+00:00",
+        "sha256": "7549fb68446eee40e1f50a166fa06b2d2ee6349e07c8553a4828757e032d3cd4",
+        "cache_version": 1
+      }
+    },
+    "BA": {
+      "yahoo": {
+        "url": "https://query1.finance.yahoo.com/v8/finance/chart/BA?period1=1262304000&period2=1789223726&interval=1d&events=div%2Csplits&includeAdjustedClose=true",
+        "fetched_at": "2026-09-12T14:35:26.739964+00:00",
+        "sha256": "d962b5cb2c9804c1e8202f07e2c5e048b2a78ac5593da640a69ee149addaf829",
+        "cache_version": 1,
+        "requested_start": "2010-01-01",
+        "coverage_end_exclusive": "2026-09-12"
+      },
+      "sec": {
+        "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000012927.json",
+        "fetched_at": "2026-09-12T14:35:27.396825+00:00",
+        "sha256": "0c63f1ae7cc10b3c27e0c94f2add0c461e6293036dd4e52e52ae6dbb6f206e15",
+        "cache_version": 1
+      }
+    },
+    "BAC": {
+      "yahoo": {
+        "url": "https://query1.finance.yahoo.com/v8/finance/chart/BAC?period1=1262304000&period2=1789223727&interval=1d&events=div%2Csplits&includeAdjustedClose=true",
+        "fetched_at": "2026-09-12T14:35:27.866486+00:00",
+        "sha256": "d585705078dd5c94c47182d4e7fad2ee5f7ac33a35d188554fca2a07ec34ff0c",
+        "cache_version": 1,
+        "requested_start": "2010-01-01",
+        "coverage_end_exclusive": "2026-09-12"
+      },
+      "sec": {
+        "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000070858.json",
+        "fetched_at": "2026-09-12T14:35:29.422673+00:00",
+        "sha256": "096861d6b722eb23c04ff6b457e790896b45f3d1b5da4252363bbb9a8b988a10",
+        "cache_version": 1
+      }
+    },
+    "CAT": {
+      "yahoo": {
+        "url": "https://query1.finance.yahoo.com/v8/finance/chart/CAT?period1=1262304000&period2=1789223729&interval=1d&events=div%2Csplits&includeAdjustedClose=true",
+        "fetched_at": "2026-09-12T14:35:29.950453+00:00",
+        "sha256": "65c596541a7245d7c96aace265d3708fc360bc047697df78d3dde2da89d9219b",
+        "cache_version": 1,
+        "requested_start": "2010-01-01",
+        "coverage_end_exclusive": "2026-09-12"
+      },
+      "sec": {
+        "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000018230.json",
+        "fetched_at": "2026-09-12T14:35:36.379829+00:00",
+        "sha256": "01ddc6ffa741f0a7da440e2949b2ed19cec14fab35435a398e3f3d0100019715",
+        "cache_version": 1
+      }
+    },
+    "COST": {
+      "yahoo": {
+        "url": "https://query1.finance.yahoo.com/v8/finance/chart/COST?period1=1262304000&period2=1789223736&interval=1d&events=div%2Csplits&includeAdjustedClose=true",
+        "fetched_at": "2026-09-12T14:35:36.859070+00:00",
+        "sha256": "6769d2cc80dd15e7ddb3f80dae4f244cd95e7c06339b4f50b2aaa27dae9c514d",
+        "cache_version": 1,
+        "requested_start": "2010-01-01",
+        "coverage_end_exclusive": "2026-09-12"
+      },
+      "sec": {
+        "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000909832.json",
+        "fetched_at": "2026-09-12T14:35:38.107824+00:00",
+        "sha256": "71a4fd99c86f27c3aa27b8f05b3a9705c16f0060b425395bb1a367ce239b7d1f",
+        "cache_version": 1
+      }
+    },
+    "CVX": {
+      "yahoo": {
+        "url": "https://query1.finance.yahoo.com/v8/finance/chart/CVX?period1=1262304000&period2=1789223738&interval=1d&events=div%2Csplits&includeAdjustedClose=true",
+        "fetched_at": "2026-09-12T14:35:38.640662+00:00",
+        "sha256": "bf5333c8c9192af040bb569fd974b1553c8edd2a301ac102d89f5e26856f71d8",
+        "cache_version": 1,
+        "requested_start": "2010-01-01",
+        "coverage_end_exclusive": "2026-09-12"
+      },
+      "sec": {
+        "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000093410.json",
+        "fetched_at": "2026-09-12T14:35:40.633433+00:00",
+        "sha256": "c09b160603412cb45acf1bb9bf3732e531dedfb548afa0e275fd8aefd7ab397e",
+        "cache_version": 1
+      }
+    },
+    "DIS": {
+      "yahoo": {
+        "url": "https://query1.finance.yahoo.com/v8/finance/chart/DIS?period1=1262304000&period2=1789223740&interval=1d&events=div%2Csplits&includeAdjustedClose=true",
+        "fetched_at": "2026-09-12T14:35:41.158608+00:00",
+        "sha256": "47287369b382d6dd29148ff37bb658fa88d05ad4e6b236f94b2f036f598e09f6",
+        "cache_version": 1,
+        "requested_start": "2010-01-01",
+        "coverage_end_exclusive": "2026-09-12"
+      },
+      "sec": {
+        "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001744489.json",
+        "fetched_at": "2026-09-12T14:35:42.005383+00:00",
+        "sha256": "f737e2272b6fb76cda801a8a5d493621a917ad4f73e0752b4ab14ffda694a57b",
+        "cache_version": 1
+      }
+    },
+    "GOOGL": {
+      "yahoo": {
+        "url": "https://query1.finance.yahoo.com/v8/finance/chart/GOOGL?period1=1262304000&period2=1789223742&interval=1d&events=div%2Csplits&includeAdjustedClose=true",
+        "fetched_at": "2026-09-12T14:35:42.447580+00:00",
+        "sha256": "1c3ea4386d564f990488a54091d059712fdce32bf800d6995535d78b2c850e77",
+        "cache_version": 1,
+        "requested_start": "2010-01-01",
+        "coverage_end_exclusive": "2026-09-12"
+      },
+      "sec": {
+        "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001652044.json",
+        "fetched_at": "2026-09-12T14:35:43.058249+00:00",
+        "sha256": "a017f26ee88cb4a639d1c1ddb06d53b4afe22f0ac89cabec7cd67c88919fe1c5",
+        "cache_version": 1
+      }
+    },
+    "GS": {
+      "yahoo": {
+        "url": "https://query1.finance.yahoo.com/v8/finance/chart/GS?period1=1262304000&period2=1789223743&interval=1d&events=div%2Csplits&includeAdjustedClose=true",
+        "fetched_at": "2026-09-12T14:35:43.526505+00:00",
+        "sha256": "94a88389b90c18e2d9db5e4521646d8e67df044e00adf7f24401b97dbffb112d",
+        "cache_version": 1,
+        "requested_start": "2010-01-01",
+        "coverage_end_exclusive": "2026-09-12"
+      },
+      "sec": {
+        "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000886982.json",
+        "fetched_at": "2026-09-12T14:35:47.275118+00:00",
+        "sha256": "6cac0dfa6c232d87266e727197e7241c9d5a32bb322f513135c27a2ca2b27327",
+        "cache_version": 1
+      }
+    }
+  },
+  "files": {
+    "prices.csv": {
+      "rows": 10030,
+      "sha256": "6db7c5465541c7feedcfa99c17f4a78b04a9cb2be8153e607eccf238fa14db89"
+    },
+    "earnings.csv": {
+      "rows": 545,
+      "sha256": "d7564074a85a590a2a9cc47e1b26f24f6d6e14cff8b4eb039cbf66d3e73ce311"
+    },
+    "universe.csv": {
+      "rows": 10,
+      "sha256": "ed1107f6cb72e7e66b00bd5119117f8bbd21cdc1a22a4d2d96067a6ccaf83e78"
+    }
+  },
+  "sample_of": "data/manifest.json",
+  "sample_selection": "First ten tickers alphabetically; shorter price history; not selected by returns.",
+  "parent_manifest_sha256": "d1a06595d48edc74d102452c19bb18a716133c342f195083d086ef75f066bba4"
+}

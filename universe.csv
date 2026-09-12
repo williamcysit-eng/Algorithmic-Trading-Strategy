@@ -1,0 +1,31 @@
+ticker,cik,name,sector
+AAPL,320193,Apple,Technology
+MSFT,789019,Microsoft,Technology
+AMZN,1018724,Amazon,Consumer Discretionary
+GOOGL,1652044,Alphabet,Communication Services
+NVDA,1045810,NVIDIA,Technology
+IBM,51143,IBM,Technology
+ORCL,1341439,Oracle,Technology
+JPM,19617,JPMorgan Chase,Financials
+BAC,70858,Bank of America,Financials
+GS,886982,Goldman Sachs,Financials
+XOM,34088,Exxon Mobil,Energy
+CVX,93410,Chevron,Energy
+JNJ,200406,Johnson & Johnson,Health Care
+PFE,78003,Pfizer,Health Care
+MRK,310158,Merck,Health Care
+UNH,731766,UnitedHealth,Health Care
+PG,80424,Procter & Gamble,Consumer Staples
+KO,21344,Coca-Cola,Consumer Staples
+PEP,77476,PepsiCo,Consumer Staples
+WMT,104169,Walmart,Consumer Staples
+COST,909832,Costco,Consumer Staples
+HD,354950,Home Depot,Consumer Discretionary
+MCD,63908,McDonald's,Consumer Discretionary
+DIS,1744489,Disney,Communication Services
+CAT,18230,Caterpillar,Industrials
+BA,12927,Boeing,Industrials
+MMM,66740,3M,Industrials
+UPS,1090727,United Parcel Service,Industrials
+NKE,320187,Nike,Consumer Discretionary
+T,732717,AT&T,Communication Services

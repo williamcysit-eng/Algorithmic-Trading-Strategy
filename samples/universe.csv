@@ -1,0 +1,11 @@
+ticker,cik,name,sector
+AAPL,0000320193,Apple,Technology
+AMZN,0001018724,Amazon,Consumer Discretionary
+BA,0000012927,Boeing,Industrials
+BAC,0000070858,Bank of America,Financials
+CAT,0000018230,Caterpillar,Industrials
+COST,0000909832,Costco,Consumer Staples
+CVX,0000093410,Chevron,Energy
+DIS,0001744489,Disney,Communication Services
+GOOGL,0001652044,Alphabet,Communication Services
+GS,0000886982,Goldman Sachs,Financials

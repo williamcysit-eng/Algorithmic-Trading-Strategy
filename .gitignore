@@ -1,0 +1,24 @@
+# Course materials remain local.
+/Information/
+
+# Python environments, caches, and package metadata.
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+
+# Full datasets and generated experiment outputs; samples/ stays versioned.
+/data/
+/results/
+
+# Build products.
+/build/
+/dist/
+
+# Local credentials and operating-system metadata.
+.env
+.env.*
+!.env.example
+.DS_Store
