@@ -1,7 +1,5 @@
 # Earnings–momentum stock-ranking ensemble
 
-Python implementation for the STAT7008 investment exercises. This is technical usage documentation, **not the assessed written report**. The assignment permits AI-written code but requires students to write the report themselves.
-
 ## Run
 
 Python 3.11+ and [uv](https://docs.astral.sh/uv/) are required for these commands. `uv.lock` pins the environment. NumPy is constrained below 2.4 for compatibility with the pandas 2.x date operations used here.
