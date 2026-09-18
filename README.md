@@ -47,6 +47,59 @@ The verified full-universe run uses 120,720 daily price observations and 1,732 e
 
 These are survivor-selected pilot results, not established alpha. Momentum alone had higher net CAGR at all three horizons in this price-return run. The paired bootstrap intervals for the earnings gate's incremental benefit included zero. Reproduce the tables with the full configuration; changed data snapshots or settings require updating this recorded result.
 
+## Empirical horizon diagnostics and fitness for purpose
+
+The full backtest was rerun on the recorded data snapshot, together with two behavioral checks targeted at the main threats to a multi-horizon study: `test_future_prices_and_filings_cannot_change_past_rankings` and `test_execution_lag_full_investment_and_cost_accounting`. Both checks passed. They establish that later prices and filings cannot revise an earlier ranking, that labels mature before model fitting, and that next-close execution, full investment and trading costs are accounted for consistently. These are implementation-validity checks; they do not establish predictive validity.
+
+### Assignment-consistent quantitative results
+
+The primary estimand is the close-to-close nominal price return of an equal-dollar, long-only, top-five portfolio. The table uses the untouched 2023–2025 chronological holdout and zero costs, as required by the assignment. “Episode” means one complete, non-overlapping entry-to-exit holding period; the final incomplete interval is excluded from episode statistics but remains marked and liquidated in the compounded path statistics. CAGR, volatility and Sharpe annualize daily observations using 252 sessions, and Sharpe uses a zero risk-free rate.
+
+| Horizon | Complete episodes | Mean episode return | Positive episodes | Holdout total return | CAGR | Sharpe | Maximum drawdown | CAGR at 10 bps/side |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| 1 session | 751 | 0.076% | 53.9% | 64.66% | 18.19% | 0.99 | -25.58% | -8.66% |
+| 5 sessions | 150 | 0.504% | 61.3% | 105.83% | 27.37% | 1.37 | -28.41% | 20.64% |
+| 20 sessions | 37 | 1.679% | 62.2% | 79.23% | 21.60% | 1.12 | -24.21% | 19.79% |
+
+The episode mean is the quantity closest to the one-off course exercise; CAGR instead describes repeatedly reinvested, non-overlapping historical portfolios. Neither is a forecast for the single 2026 realization. The much smaller number of complete monthly episodes also makes the 20-session estimate materially less precise than the daily estimate.
+
+Descriptively, the learned ensemble was the best tested zero-cost strategy only at five sessions. The fixed equal-signal blend produced the highest zero-cost holdout CAGR at one session (29.04%) and 20 sessions (25.53%), while the learned ensemble led at five sessions (27.37%). Selecting among these variants after observing the holdout would itself be data snooping, so these rankings are diagnostic rather than a rule for choosing the live model.
+
+### Paired uncertainty test
+
+To avoid treating serially dependent daily marks as independent observations, the same fixed-seed circular block bootstrap used by the reporting pipeline was applied to **gross** holdout returns: 1,000 paired resamples, 20-session blocks, and the ensemble minus comparator return on each common date. The estimand below is the annualized arithmetic mean difference, not a CAGR difference.
+
+| Horizon | Comparator | Ensemble difference | Paired 95% bootstrap interval |
+|---|---|---:|---:|
+| 1 session | Eligible-universe benchmark | +1.96 pp/year | [-11.01, 15.02] |
+| 1 session | Equal-signal blend | -8.90 pp/year | [-15.52, -2.24] |
+| 5 sessions | Eligible-universe benchmark | +9.50 pp/year | [-5.03, 23.72] |
+| 5 sessions | Equal-signal blend | +0.53 pp/year | [-9.51, 8.84] |
+| 20 sessions | Eligible-universe benchmark | +4.97 pp/year | [-8.05, 18.62] |
+| 20 sessions | Equal-signal blend | -3.26 pp/year | [-11.08, 4.10] |
+
+Only the one-session comparison with the equal-signal blend excludes zero, and it favors the simpler blend. None of the ensemble-versus-universe intervals excludes zero. The bad-news gate is likewise unresolved: its annualized gross-return differences relative to the ungated fit were +0.17, +0.32 and +0.03 percentage points for 1, 5 and 20 sessions, respectively, and all three paired intervals included zero. These intervals are not adjusted for the several horizons and comparators examined. The standard `paired_holdout_intervals.csv` applies the same procedure to the configured 10-bps return series; this zero-cost diagnostic instead substitutes `gross_return`, matching the assignment.
+
+### Cost, horizon and calendar stress tests
+
+Turnover explains the daily strategy's apparent contradiction between a positive assignment result and a negative cost-aware result. Mean daily traded notional was 102.31%, 21.52% and 5.91% of prior NAV for the 1-, 5- and 20-session ensembles. Applying 10 basis points to every dollar bought or sold reduced holdout CAGR by 26.85, 6.73 and 1.80 percentage points, respectively. Zero cost is therefore the correct contractual assumption for grading, but the one-session result is not economically robust to even the stated illustrative fee.
+
+The exact 2026 calendar also matters. From the November 6 close through the December 4 close there are 19 post-entry NYSE sessions, because Thanksgiving Day, November 26, is closed; the November 27 early close remains a session under the [NYSE calendar](https://www.nyse.com/trade/hours-calendars). Thus 20 sessions is a conventional trading-month proxy rather than the exact assignment span. Whole-backtest sensitivity runs at 19 and 21 sessions produced:
+
+| Horizon convention | Ensemble zero-cost CAGR | Equal-signal CAGR | Universe CAGR | Ensemble-minus-universe 95% interval |
+|---|---:|---:|---:|---:|
+| 19 sessions | 26.27% | 31.06% | 16.97% | [-3.22, 21.43] pp/year |
+| 20 sessions | 21.60% | 25.53% | 16.91% | [-8.05, 18.62] pp/year |
+| 21 sessions | 18.68% | 19.45% | 17.10% | [-9.62, 14.85] pp/year |
+
+Changing the horizon changes both the forward-return label and the non-overlapping rebalance calendar, so this is an operational sensitivity test rather than a pure one-parameter causal comparison. The sign of the ensemble's point excess return is stable, but no interval excludes zero and the magnitude is schedule-sensitive. The exact-date allocation command correctly evaluates the supplied December 4 exit; its ranking model still uses the configured training horizon. The 19-session exact convention or the 20-session conventional proxy should therefore be specified **before** producing the live ranking, not selected after comparing outcomes.
+
+Horizon differentiation is also weak in the current fit. Across holdout refits, mean ensemble weights were approximately 56% earnings, 17–18% momentum and 26% reversal at every horizon. On the latest downloaded signal session, all three models consequently selected the same top five stocks. This is permitted by the assignment, but the portfolios should not be described as three economically independent bets merely because three models were fitted.
+
+As a one-event operational check, the historical November 6, 2025 allocation in `results/example_2025/` returned -0.534% after one session, -0.047% after five sessions and +1.365% through December 4, leaving $994,658, $999,535 and $1,013,648 before dividend cash. That example confirms the exact-date calculation path; one event supplies no reliable estimate of expected performance.
+
+**Assessment.** The repository is fit for the course goal of constructing, executing and auditing separate daily, weekly and monthly zero-cost portfolios: horizons are explicit, chronology is purged, nominal closes and exact exits are supported, and the investment constraints are enforced. It is not evidence that the learned ensemble reliably maximizes return. The weekly and monthly point estimates are encouraging but statistically unresolved; the daily learned fit is inferior to the equal blend and exceptionally cost-sensitive; the gate has no detected incremental benefit; and the 30-stock survivor universe limits external validity. The defensible characterization is therefore a horizon-aligned exploratory decision system, not a validated alpha model.
+
 ## Three experts and the learned score
 
 - **Earnings:** seasonal change in quarterly GAAP profit divided by quarter-end assets, standardized by the sample standard deviation of up to eight previously observable changes (at least four). Net income and earnings available to common shareholders are processed separately; definitions are never mixed within a difference or scale. The earliest usable disclosure wins. `source_concept` and `source_accn` identify the inputs. Quarter-four profit can be annual minus year-to-date profit; 52/53-week retail calendars are supported. This is **not analyst-consensus surprise**.
