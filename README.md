@@ -25,15 +25,18 @@ Default full history: **2010-01-04 through 2025-12-31**. Evaluation: 2018–2025
 
 `--config` precedes the subcommand. Config paths are relative to the JSON file. CLI `--output` overrides are relative to the current directory.
 
-For new observations, set your own SEC identification string and extend the exclusive end date. Both price and filing caches refresh when their snapshots cannot cover the new endpoint:
+For new observations, use `config.current.json` to keep the refreshed snapshot separate from the recorded experiment. Set your own SEC identification string and extend the exclusive end date when needed. Both price and filing caches refresh when their snapshots cannot cover the new endpoint:
 
 ```sh
 export SEC_USER_AGENT='Your project name your-contact-email'
-uv run stock-ensemble download --end 2026-09-12
-uv run stock-ensemble rank --output results/latest
+uv run stock-ensemble --config config.current.json download --end 2026-10-22
+uv run stock-ensemble --config config.current.json backtest
+uv run stock-ensemble --config config.current.json rank
 ```
 
-Only completed sessions before `--end` are accepted. An unchanged date range reuses cached source snapshots for reproducibility. Keep a copy of the data and results before extending an experiment. Raw snapshot and normalized CSV checksums are recorded in `data/manifest.json`.
+Only completed sessions before `--end` are accepted. An unchanged date range reuses cached source snapshots for reproducibility. Keep a copy of the data and results before extending an experiment. Raw snapshot and normalized CSV checksums are recorded in the selected dataset's `manifest.json`.
+
+The refreshed snapshot contains 126,780 daily price observations and 1,824 earnings events across 30 stocks, through **2026-10-21**. Its data and outputs are in `data/current/` and `results/current/`; `config.json`, `data/`'s original normalized files and the recorded historical tables remain unchanged. On later refreshes, set `--end` to that day's **New York date** to include only prior completed sessions. Treat refreshed rankings and extended backtests as a separate experiment, not replacements for the recorded 2018–2025 evaluation.
 
 ## Recorded evaluation
 
@@ -46,6 +49,23 @@ The verified full-universe run uses 120,720 daily price observations and 1,732 e
 | 20 sessions | 21.60% | 19.79% |
 
 These are survivor-selected pilot results, not established alpha. Momentum alone had higher net CAGR at all three horizons in this price-return run. The paired bootstrap intervals for the earnings gate's incremental benefit included zero. Reproduce the tables with the full configuration; changed data snapshots or settings require updating this recorded result.
+
+### Code and result validation
+
+The review reproduced all ten numeric artifacts from both the full experiment and the offline sample. Independent calculations from the daily returns matched the saved CAGR, volatility, Sharpe, drawdown and per-dollar trading costs. The historical allocation example was also reconciled directly to nominal entry/exit closes, split-adjusted share counts and dividend cash. Recorded data hashes, strict label purging and fitted-weight constraints were checked; these checks validate the implementation on the supplied snapshots, not the accuracy of every vendor observation or future investment performance.
+
+`summarize_returns` now orders each portfolio's observations by session before computing period statistics. Previously, shuffled input could understate maximum drawdown even though the ordinary backtest already produced chronological rows. The regression covers both subperiod and full-path drawdowns; the recorded results are unchanged.
+
+Allocation audit metadata also reports the configured training horizons rather than hard-coding `1/5/20`, so a 19-session monthly model is not mislabeled as a 20-session fit.
+
+Compatible dependencies have been refreshed in `uv.lock`, retaining the NumPy `<2.4` and pandas `<3` bounds. Reproduce the environment with `uv sync --frozen --extra dev`. To check for newer compatible releases deliberately, use `uv lock --upgrade`, sync again, and run the checks below before accepting the new lockfile. Do not remove compatibility bounds or change the experiment's settings merely to obtain newer version numbers.
+
+```sh
+uv run --frozen --extra dev ruff check stock_ensemble tests
+uv run --frozen --extra dev pytest -q
+uv run --frozen stock-ensemble backtest --output results/review
+uv run --frozen stock-ensemble --config samples/config.json backtest --output results/review_sample
+```
 
 ## Empirical horizon diagnostics and fitness for purpose
 
@@ -144,8 +164,8 @@ uv run stock-ensemble allocate --entry-date 2025-11-06 \
 Once the **2026-11-06 close is actually available**, refresh data and use the assignment's exact dates:
 
 ```sh
-uv run stock-ensemble download --end 2026-11-07
-uv run stock-ensemble allocate --entry-date 2026-11-06 \
+uv run stock-ensemble --config config.current.json download --end 2026-11-07
+uv run stock-ensemble --config config.current.json allocate --entry-date 2026-11-06 \
   --exit-dates 2026-11-09 2026-11-13 2026-12-04 \
   --output results/assignment_2026
 ```
@@ -156,7 +176,7 @@ Future market data are not fabricated. Pending evaluations remain pending. Rerun
 
 | File | Purpose |
 |---|---|
-| `config.json`, `universe.csv` | Fixed settings and explicit stock universe |
+| `config.json`, `config.current.json`, `universe.csv` | Separate historical/current settings and explicit stock universe |
 | `stock_ensemble/data.py` | Yahoo/SEC ingestion, filing vintages, corporate actions |
 | `stock_ensemble/features.py` | Three experts and earnings-conditioned reversal |
 | `stock_ensemble/model.py` | Constrained, regularized rank ensemble |

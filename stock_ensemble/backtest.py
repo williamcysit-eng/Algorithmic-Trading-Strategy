@@ -275,10 +275,11 @@ def _simulate(market, dates, horizon, strategy, decisions, capital, fee):
 
 
 def summarize_returns(returns: pd.DataFrame, holdout_start: str) -> pd.DataFrame:
-    """Summarize daily tradable returns; Sharpe uses a zero risk-free rate."""
+    """Summarize chronological daily returns; Sharpe uses a zero risk-free rate."""
     holdout = _date(holdout_start)
     rows = []
     for (horizon, strategy), series in returns.groupby(["horizon", "strategy"], sort=False):
+        series = series.sort_values("date", kind="stable")
         periods = {
             "all": series,
             "development": series.loc[series["date"] < holdout],

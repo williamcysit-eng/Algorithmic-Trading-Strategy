@@ -176,7 +176,10 @@ def _allocate(prices, features, universe, config, args, output):
             "signal_date": signal_date,
             "entry_date": entry,
             "no_lookahead": "Selection uses previous-close features, not entry-close returns or future outcomes.",
-            "horizons": "Training uses 1/5/20 sessions; supplied exit dates override only evaluation dates.",
+            "horizons": (
+                f"Training uses {'/'.join(map(str, horizons))} sessions; "
+                "supplied exit dates override only evaluation dates."
+            ),
             "dividends": "Historical ex-dates only; future dividends are unknown, not assumed absent.",
         },
     )
