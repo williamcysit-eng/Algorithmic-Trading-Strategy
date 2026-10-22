@@ -1,6 +1,29 @@
-# Earnings–momentum stock-ranking ensemble
+# Horizon-specific stock selection and allocation research
 
-## Run
+## Research protocol
+
+The new study is **exploratory retrospective research**, not a fresh confirmatory holdout. The legacy 2023–2025 results and the extension through 2026-10-21 were inspected before this design. `config.research.json` freezes the candidate grid and analysis settings in version control before the new-model outcomes are run; this is a local protocol freeze, **not independent preregistration**. Do not tune this protocol after seeing its outer results and then claim an untouched test.
+
+The primary estimand is the mean complete, non-overlapping nominal price return of a fully invested five-stock portfolio, separately at 1, 5 and 19 sessions. Those horizons match the assignment's 2026 entry and exact exit dates. Dividends are notified separately, not counted in the grade return. Zero trading costs are primary; 10 bps per dollar traded is a fixed-decision sensitivity.
+
+Prespecified questions:
+
+- **Forecasting:** do Ridge or shallow histogram-boosted return forecasts improve on the fixed equal-signal blend when both use equal stock weights?
+- **Allocation:** holding each fitted predictor and its selected stocks fixed, do bounded, regularized stock weights improve on 20% each?
+- **Selection:** does a nested, historically selected policy improve on the fixed blend and momentum baselines?
+
+Controls are momentum, the fixed signal blend and a constrained-rank ensemble reference. Ridge uses alphas 1 and 100. Boosting uses depths 2 and 3, 60 iterations, learning rate 0.05 and no random validation/early stopping. Predictor fitting gives every training date equal aggregate weight, using only labels realized strictly before monthly refits. The full study uses a trailing 1,260-session window and at least 504 matured training dates.
+
+Each outer calendar year freezes its choices using three preceding 126-session inner blocks, whose exits must precede the outer selection date. Inner and outer models may refit monthly on already realized outcomes: this is prequential evaluation, not frozen-model testing. Inner selection first chooses predictor hyperparameters under equal weights, then allocation penalties 0.01 or 0.1 for those same forecasts, then a champion among the seven model/allocation policies. The eight outer series include that nested policy and all controls/ablations.
+
+Regularized allocations maximize predicted return minus a squared-distance penalty toward equal weights, subject to 5%–40% per selected stock and weights summing to one. These bounds are declared robustness choices, not assignment requirements or empirically optimal values. They sacrifice some estimated return to limit concentration driven by forecast error.
+
+Primary uncertainty uses paired holding episodes, fold-stratified circular blocks equivalent to 20 sessions, 5,000 draws and Holm adjustment across six prespecified comparisons per horizon. Pointwise intervals are not simultaneous confidence bands. Ten- and 40-session block sensitivities are descriptive, not alternative significance thresholds. The bootstrap conditions on the observed folds and fitted procedure; it does not cover all researcher choices, vendor revisions or new market regimes.
+
+`samples/research.json` is a separately labeled offline demonstration with shorter training/inner windows and ten stocks. Its outcomes are not full-study evidence. The final assignment outcomes remain prospective until their actual exit closes; the course report must be written by the students, not generated here.
+
+
+## Legacy baseline: run
 
 Python 3.11+ and [uv](https://docs.astral.sh/uv/) are required for these commands. `uv.lock` pins the environment. NumPy is constrained below 2.4 for compatibility with the pandas 2.x date operations used here.
 
@@ -21,7 +44,7 @@ uv run stock-ensemble rank --output results/latest
 uv run --extra dev pytest -q
 ```
 
-Default full history: **2010-01-04 through 2025-12-31**. Evaluation: 2018–2025; reserved chronological evaluation: 2023–2025. The offline sample uses ten alphabetically selected tickers, 2022–2025 prices, and 2025 evaluation. Its results are a different experiment, not substitutes for the full results.
+Default legacy history: **2010-01-04 through 2025-12-31**. Evaluation: 2018–2025; originally designated chronological evaluation: 2023–2025, subsequently inspected. The offline sample uses ten alphabetically selected tickers, 2022–2025 prices, and 2025 evaluation. Its results are a different experiment, not substitutes for the full results.
 
 `--config` precedes the subcommand. Config paths are relative to the JSON file. CLI `--output` overrides are relative to the current directory.
 
@@ -38,7 +61,7 @@ Only completed sessions before `--end` are accepted. An unchanged date range reu
 
 The refreshed snapshot contains 126,780 daily price observations and 1,824 earnings events across 30 stocks, through **2026-10-21**. Its data and outputs are in `data/current/` and `results/current/`; `config.json`, `data/`'s original normalized files and the recorded historical tables remain unchanged. On later refreshes, set `--end` to that day's **New York date** to include only prior completed sessions. Treat refreshed rankings and extended backtests as a separate experiment, not replacements for the recorded 2018–2025 evaluation.
 
-## Recorded evaluation
+## Legacy baseline: recorded evaluation
 
 The verified full-universe run uses 120,720 daily price observations and 1,732 earnings events across 30 stocks. The table records the ensemble's price-return CAGR over **2023-01-03 through 2025-12-31**, not the smaller offline sample.
 
@@ -73,7 +96,7 @@ The full backtest was rerun on the recorded data snapshot, together with two beh
 
 ### Assignment-consistent quantitative results
 
-The primary estimand is the close-to-close nominal price return of an equal-dollar, long-only, top-five portfolio. The table uses the untouched 2023–2025 chronological holdout and zero costs, as required by the assignment. “Episode” means one complete, non-overlapping entry-to-exit holding period; the final incomplete interval is excluded from episode statistics but remains marked and liquidated in the compounded path statistics. CAGR, volatility and Sharpe annualize daily observations using 252 sessions, and Sharpe uses a zero risk-free rate.
+The primary estimand in this legacy table is the close-to-close nominal price return of an equal-dollar, long-only, top-five portfolio. The table uses the previously inspected 2023–2025 chronological evaluation and zero costs, as required by the assignment; it is not an untouched test for the new research design. “Episode” means one complete, non-overlapping entry-to-exit holding period; the final incomplete interval is excluded from episode statistics but remains marked and liquidated in the compounded path statistics. CAGR, volatility and Sharpe annualize daily observations using 252 sessions, and Sharpe uses a zero risk-free rate.
 
 | Horizon | Complete episodes | Mean episode return | Positive episodes | Holdout total return | CAGR | Sharpe | Maximum drawdown | CAGR at 10 bps/side |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
