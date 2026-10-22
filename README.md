@@ -201,6 +201,7 @@ Comparators: learned gated ensemble, equal-weight signal blend, learned ungated 
 - Full downloads in `/data/`, generated artifacts in `/results/`, the local course brief in `/Information/`, virtual environments, caches, and build products stay out of Git. Full-run output links are available after running the experiment, not as checked-in results.
 - Keep local credentials in environment variables or ignored `.env` files. Only a sanitized `.env.example` may be committed; the CLI reads the process environment and does not automatically load `.env`.
 - When commands, data conventions, dependencies, or outputs change, update this README and the corresponding ignore rules in the same change. Keep the sample configuration aligned with the supported data schema.
+- Comments explain information availability, return/share units, constraint equations and execution order. Avoid line-by-line narration; update annotations alongside the calculations they explain.
 
 Before committing code changes:
 

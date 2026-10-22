@@ -94,6 +94,8 @@ LIMITATIONS = [
 
 
 def save_json(path: Path, payload: object) -> None:
+    """Write strict JSON, rejecting unsupported objects and non-finite numbers."""
+
     def convert(value):
         if isinstance(value, (pd.Timestamp, Path)):
             return str(value)
@@ -105,12 +107,17 @@ def save_json(path: Path, payload: object) -> None:
 
 
 def paired_intervals(returns: pd.DataFrame, holdout_start: str) -> pd.DataFrame:
-    """Intervals for annualized *arithmetic mean* paired daily return differences."""
+    """Bootstrap paired daily returns in circular blocks.
+
+    Shared-date differences preserve pairing. Intervals describe annualized
+    arithmetic excess returns, not differences in compounded growth.
+    """
     rng = np.random.default_rng(7008)
     rows = []
     for horizon, group in returns[returns["date"] >= pd.Timestamp(holdout_start)].groupby(
         "horizon"
     ):
+        # Chronological order defines the blocks, independently of CSV row order.
         wide = group.pivot(index="date", columns="strategy", values="return").sort_index()
         for comparator in ("universe", "equal_signal", "ungated"):
             paired = wide[["ensemble", comparator]].dropna()
@@ -122,6 +129,7 @@ def paired_intervals(returns: pd.DataFrame, holdout_start: str) -> pd.DataFrame:
             means = np.empty(1000)
             offsets = np.arange(block)
             for draw in range(len(means)):
+                # Keep nearby sessions together; modulo wraps blocks at the sample end.
                 starts = rng.integers(0, size, size=(size + block - 1) // block)
                 indices = ((starts[:, None] + offsets) % size).ravel()[:size]
                 means[draw] = difference[indices].mean() * 252
@@ -144,6 +152,7 @@ def paired_intervals(returns: pd.DataFrame, holdout_start: str) -> pd.DataFrame:
 def _plot_curves(returns: pd.DataFrame, output: Path, holdout_start: str) -> None:
     import matplotlib
 
+    # File-only rendering keeps CLI reports usable without a display server.
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
 
@@ -178,6 +187,7 @@ def _plot_curves(returns: pd.DataFrame, output: Path, holdout_start: str) -> Non
 
 
 def write_results(result: dict, features: pd.DataFrame, metadata: dict, config: dict) -> None:
+    """Persist numeric evidence and provenance before rendering the comparison plot."""
     from .backtest import summarize_returns
 
     output = Path(config["output_dir"])
@@ -219,6 +229,7 @@ def write_results(result: dict, features: pd.DataFrame, metadata: dict, config: 
         )
     )
     coverage.to_csv(output / "coverage.csv")
+    # Pair exact implementation hashes with the dataset's existing source provenance.
     source_hashes = {
         path.name: hashlib.sha256(path.read_bytes()).hexdigest()
         for path in sorted(Path(__file__).parent.glob("*.py"))

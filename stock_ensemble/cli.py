@@ -18,6 +18,7 @@ from .reporting import save_json, write_results
 
 
 def _config(path: str) -> dict:
+    """Resolve dataset paths relative to the config, not the working directory."""
     config_path = Path(path).resolve()
     config = json.loads(config_path.read_text())
     for key in ("universe_path", "data_dir", "output_dir"):
@@ -32,6 +33,7 @@ def _config(path: str) -> dict:
 
 
 def _rank(prices, features, universe, config, as_of, output):
+    """Write horizon-specific rankings alongside their fitted-model audit trail."""
     from .backtest import rank_as_of
 
     rankings, fits = [], []
@@ -55,6 +57,7 @@ def _rank(prices, features, universe, config, as_of, output):
 
 
 def _allocate(prices, features, universe, config, args, output):
+    """Size fractional-share portfolios and evaluate fully observed holding periods."""
     entry = pd.Timestamp(args.entry_date).normalize()
     dates = pd.DatetimeIndex(sorted(prices["date"].unique()))
     if entry not in dates or dates.get_loc(entry) == 0:
@@ -62,6 +65,7 @@ def _allocate(prices, features, universe, config, args, output):
             "Entry date must have a recorded market close and a preceding signal session"
         )
     entry_position = dates.get_loc(entry)
+    # Entry-close prices size the trades; only the preceding close selects stocks.
     signal_date = dates[entry_position - 1]
     ranked = _rank(prices, features, universe, config, signal_date, output)
     capital = args.capital if args.capital is not None else config["backtest"]["initial_capital"]
@@ -78,6 +82,7 @@ def _allocate(prices, features, universe, config, args, output):
         picks = ranked[ranked["horizon"] == horizon].iloc[: config["backtest"]["top_n"]]
         if picks.empty:
             raise ValueError(f"No eligible selections for horizon {horizon}")
+        # Exact exits change evaluation dates, not the horizon used for training.
         if args.exit_dates:
             exit_date = pd.Timestamp(args.exit_dates[index]).normalize()
             if exit_date <= entry:
@@ -96,6 +101,7 @@ def _allocate(prices, features, universe, config, args, output):
                 )
             close = float(indexed.loc[(entry, pick.ticker), "close"])
             dollars = capital / len(picks)
+            # Fractional shares are intentional: the assignment requires full investment.
             shares = dollars / close
             row = {
                 "horizon": horizon,
@@ -114,6 +120,7 @@ def _allocate(prices, features, universe, config, args, output):
                 "dividend_cash": np.nan,
                 "ending_value_excl_dividends": np.nan,
             }
+            # Future exits stay pending; never substitute the latest available close.
             if pd.notna(exit_date) and exit_date <= dates[-1]:
                 if (exit_date, pick.ticker) not in indexed.index:
                     raise ValueError(
@@ -127,6 +134,7 @@ def _allocate(prices, features, universe, config, args, output):
                 expected = dates[(dates > entry) & (dates <= exit_date)]
                 if len(period) != len(expected):
                     raise ValueError(f"Missing held-session data for {pick.ticker}; cannot skip it")
+                # Split-effective shares determine ex-date cash and terminal share value.
                 held_shares = shares * period["split"].cumprod()
                 dividends = held_shares * period["dividend"]
                 ending = (
@@ -239,6 +247,7 @@ def main(argv=None) -> int:
             print(json.dumps(manifest, default=str, indent=2))
             return 0
         if args.output:
+            # Unlike config paths, a CLI output override is relative to the caller.
             config["output_dir"] = str(Path(args.output).resolve())
         if args.command == "backtest":
             if args.cost_bps is not None:
