@@ -45,12 +45,14 @@ def build_features(prices: pd.DataFrame, earnings: pd.DataFrame, config: dict) -
     close = frame.pivot(index="date", columns="ticker", values="close").reindex_like(adjusted)
     volume = frame.pivot(index="date", columns="ticker", values="volume").reindex_like(adjusted)
     returns = adjusted.pct_change(fill_method=None)
+    # A current shock must not inflate the volatility used to scale its reversal.
     volatility = returns.shift(1).rolling(vol_window, min_periods=vol_window).std(ddof=1)
     momentum = adjusted.shift(skip) / adjusted.shift(lookback) - 1.0
     # The cross-sectional market proxy is contemporaneously observable; no ETF is held.
     residual = returns.sub(returns.mean(axis=1), axis=0)
     reversal = -residual / volatility
     dollar_volume = (close * volume).rolling(vol_window, min_periods=vol_window).mean()
+    # Require every session in the lookback, not just valid endpoint prices.
     complete_window = adjusted.rolling(lookback + 1, min_periods=lookback + 1).count()
     eligible = (
         (complete_window == lookback + 1)
@@ -97,6 +99,8 @@ def build_features(prices: pd.DataFrame, earnings: pd.DataFrame, config: dict) -
         frame["earnings_age"].between(1, settings["earnings_max_age"]) & frame["surprise"].notna()
     )
     freshness = np.exp2(-frame["earnings_age"] / settings["earnings_half_life"]).where(active, 0)
+    # Rank active earnings among eligible stocks; missing earnings stay neutral
+    # without excluding an otherwise tradable stock.
     earnings_value = frame["surprise"].where(active & frame["eligible"])
     frame["earnings"] = (
         earnings_value.groupby(frame["date"]).transform(centered_rank).fillna(0.0) * freshness

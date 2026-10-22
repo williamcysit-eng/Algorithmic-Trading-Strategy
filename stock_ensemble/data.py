@@ -87,6 +87,7 @@ def load_universe(path) -> pd.DataFrame:
 
 
 def _facts(payload, concept, duration):
+    """Normalize supported USD facts while retaining filing dates and accessions."""
     raw = (
         payload.get("facts", {}).get("us-gaap", {}).get(concept, {}).get("units", {}).get("USD", [])
     )
@@ -143,6 +144,8 @@ def _quarterly(known):
                 previous["accn"],
             ):
                 quarters[fact["end"]] = candidate
+    # Cumulative periods must share a fiscal start; subtract the nearest earlier
+    # period to isolate one quarter without mixing fiscal years.
     for periods in by_start.values():
         periods.sort(key=lambda fact: fact["end"])
         for index, current in enumerate(periods):
@@ -192,6 +195,7 @@ def _earnings_for_concept(payload, ticker, concept) -> pd.DataFrame:
         "insufficient_prior_changes": 0,
         "zero_scale": 0,
     }
+    # Advance the known information one filing date at a time, not by fiscal end.
     for filed, current_facts in sorted(by_filing.items()):
         for fact in current_facts:
             known_income[(fact["start"], fact["end"])] = fact
@@ -205,6 +209,8 @@ def _earnings_for_concept(payload, ticker, concept) -> pd.DataFrame:
         fiscal_end = max(quarters)
         if latest_end is not None and fiscal_end <= latest_end:
             continue
+        # Even an unusable new quarter is seen: a later amendment must not turn
+        # an old quarter into a freshly released earnings signal.
         latest_end = fiscal_end
         coverage["new_quarters"] += 1
         quarter = quarters[fiscal_end]
@@ -221,6 +227,7 @@ def _earnings_for_concept(payload, ticker, concept) -> pd.DataFrame:
         change = (quarter["val"] - prior["val"]) / asset["val"]
         if not math.isfinite(change):
             raise ValueError(f"Nonfinite seasonal earnings change for {ticker} at {filed.date()}")
+        # Exclude the current change from its own standardization scale.
         if len(history) >= 4:
             scale = float(np.std(history[-8:], ddof=1))
             if math.isfinite(scale) and scale > 0:
@@ -308,6 +315,7 @@ def _fetch(url, user_agent):
 
 
 def _cached_json(raw_dir, key, url, user_agent, required_start=None, required_end=None):
+    """Reuse a source snapshot only when its recorded coverage is sufficient."""
     body_path = raw_dir / f"{key}.json"
     meta_path = raw_dir / f"{key}.meta.json"
     if body_path.exists() and meta_path.exists():
@@ -318,6 +326,8 @@ def _cached_json(raw_dir, key, url, user_agent, required_start=None, required_en
                 f"Raw cache checksum mismatch: {body_path}; remove this cache pair and download again"
             )
         sufficient = metadata.get("cache_version") == _CACHE_VERSION
+        # Yahoo URLs contain retrieval time, so coverage rather than URL equality
+        # determines whether a price snapshot can be reused.
         if required_start is not None:
             sufficient = sufficient and metadata.get("requested_start", "9999") <= required_start
             sufficient = (
@@ -325,6 +335,8 @@ def _cached_json(raw_dir, key, url, user_agent, required_start=None, required_en
             )
         elif metadata.get("url") != url:
             sufficient = False
+        # SEC companyfacts has no requested window; its retrieval date bounds
+        # how recently the cached filing history could have been updated.
         if required_start is None and required_end is not None:
             fetched_day = datetime.fromisoformat(metadata["fetched_at"]).astimezone(_NY).date()
             sufficient = sufficient and fetched_day.isoformat() >= required_end
@@ -348,6 +360,7 @@ def _cached_json(raw_dir, key, url, user_agent, required_start=None, required_en
 
 
 def _yahoo_prices(payload, ticker, start, end):
+    """Restore nominal share units before slicing the requested price interval."""
     chart = payload.get("chart", {})
     if chart.get("error") or not chart.get("result") or len(chart["result"]) != 1:
         raise ValueError(f"Yahoo returned no valid chart for {ticker}: {chart.get('error')}")
@@ -424,6 +437,8 @@ def _yahoo_prices(payload, ticker, start, end):
             factor *= ordered_splits[index][1]
             index += 1
         factors[row_index] = factor
+    # Prices/dividends and volume need opposite conversions to restore nominal
+    # share units while preserving observed dollar volume.
     frame["close"] = pd.to_numeric(frame["close"], errors="raise") * factors
     frame["volume"] = pd.to_numeric(frame["volume"], errors="raise") / factors
     frame["dividend"] *= factors
@@ -612,6 +627,8 @@ def load_dataset(data_dir) -> tuple:
     metadata = json.loads(manifest.read_text())
     if metadata.get("schema_version") != 1:
         raise ValueError("Unsupported data schema; download a compatible dataset")
+    # Check the original bytes before parsing: mixed or interrupted snapshots
+    # must fail rather than become apparently valid, normalized DataFrames.
     for name in ("prices.csv", "earnings.csv", "universe.csv"):
         path = directory / name
         expected = metadata.get("files", {}).get(name, {}).get("sha256")
