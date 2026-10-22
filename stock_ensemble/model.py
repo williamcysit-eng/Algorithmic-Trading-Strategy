@@ -27,16 +27,21 @@ def fit_weights(training: pd.DataFrame, columns=SIGNALS, ridge: float = 0.05) ->
         raise ValueError("No finite training observations")
     x = frame.loc[:, list(columns)].to_numpy(dtype=float)
     y = frame["target"].to_numpy(dtype=float)
+    # Each session gets equal total weight, regardless of its eligible-stock count.
     counts = frame.groupby("date")["target"].transform("size").to_numpy(dtype=float)
     observation_weight = 1.0 / (counts * frame["date"].nunique())
     center = np.full(3, 1.0 / 3.0)
+    # Up to a constant, the objective is w.T @ quadratic @ w - 2 * linear.T @ w.
     quadratic = x.T @ (observation_weight[:, None] * x) + ridge * np.eye(3)
     linear = x.T @ (observation_weight * y) + ridge * center
     best = None
     best_objective = np.inf
     for size in range(1, 4):
         for active_tuple in combinations(range(3), size):
+            # Signals outside this face have zero weight, covering boundary optima.
             active = np.asarray(active_tuple)
+            # The final KKT row enforces sum(weights) = 1; its extra unknown is
+            # the Lagrange multiplier for that constraint.
             kkt = np.zeros((size + 1, size + 1))
             kkt[:size, :size] = quadratic[np.ix_(active, active)]
             kkt[:size, size] = 1.0
@@ -45,9 +50,11 @@ def fit_weights(training: pd.DataFrame, columns=SIGNALS, ridge: float = 0.05) ->
             try:
                 solution = np.linalg.solve(kkt, rhs)
             except np.linalg.LinAlgError:
+                # A singular face can still be feasible; check its residual below.
                 solution = np.linalg.lstsq(kkt, rhs, rcond=None)[0]
             if not np.allclose(kkt @ solution, rhs, atol=1e-9, rtol=1e-9):
                 continue
+            # Reject negative bets, allowing only floating-point boundary noise.
             if np.any(solution[:size] < -1e-10):
                 continue
             candidate = np.zeros(3)

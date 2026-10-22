@@ -20,6 +20,8 @@ RAW_SIGNALS = ("earnings", "momentum", "reversal_raw")
 
 @dataclass
 class _Market:
+    """Session-aligned prices and gross growth factors, plus signal-time features."""
+
     sessions: pd.DatetimeIndex
     prices: pd.DataFrame
     factors: pd.DataFrame
@@ -52,11 +54,13 @@ def _prepare(prices, features, config):
     bad = closes.notna() & ((closes <= 0) | ~np.isfinite(closes))
     if bad.any().any():
         raise ValueError("Prices must be positive and finite where provided")
+    # Each factor marks existing dollar holdings from the prior close to this close.
     factors = closes / closes.shift(1)
     if mode == "price":
         splits = prices.pivot(index="date", columns="ticker", values="split").reindex_like(closes)
         if (closes.notna() & (splits.isna() | (splits <= 0) | ~np.isfinite(splits))).any().any():
             raise ValueError("Every observed nominal close requires a positive finite split ratio")
+        # A split changes shares held, offsetting the nominal-price discontinuity.
         factors *= splits
     required = ["eligible", *SIGNALS, "reversal_raw"]
     missing = set(required).difference(features.columns)
@@ -113,6 +117,7 @@ def _refit_dates(market, first_signal, last_signal):
 
 
 def _fit(labels, market, refit_date, horizon, strategy, config):
+    """Fit one vintage using only labels realized before the refit session."""
     columns = SIGNALS if strategy == "ensemble" else RAW_SIGNALS
     model = config["model"]
     window = int(model["train_window"])
@@ -121,6 +126,8 @@ def _fit(labels, market, refit_date, horizon, strategy, config):
         raise ValueError("Require 1 <= min_train_dates <= train_window")
     index = int(market.sessions.get_loc(refit_date))
     window_start = market.sessions[max(0, index - window)]
+    # Purge by label exit as well as signal date: older signals can still have
+    # unrealized outcomes, especially at longer holding horizons.
     training = labels.loc[
         (labels["date"] >= window_start)
         & (labels["date"] < refit_date)
@@ -181,6 +188,7 @@ def _ranking(frame, strategy, fitted):
         values = frame["reversal_raw" if strategy == "reversal" else strategy].to_numpy(dtype=float)
     result = frame.copy()
     result["score"] = values
+    # Ticker tie-breaks make equally scored portfolios deterministic.
     result = result.sort_values(["score", "ticker"], ascending=[False, True], kind="stable")
     result["rank"] = np.arange(1, len(result) + 1)
     return result.reset_index(drop=True)
@@ -201,12 +209,17 @@ def _settings(config):
 
 
 def _self_financing(pretrade, target, wealth, fee):
-    """Return post-fee holdings, fee dollars and traded dollars (no borrowing)."""
+    """Return post-fee dollar holdings, fee dollars and traded dollars.
+
+    Post-fee invested wealth A must satisfy:
+    A + fee * sum(abs(A * target - pretrade)) = wealth.
+    Fees reduce the investment budget instead of creating borrowing.
+    """
     if fee == 0:
         after = wealth
     else:
         low, high = 0.0, wealth
-        # f<1 makes this continuous piecewise-linear equation strictly increasing.
+        # With fee < 1, the residual strictly increases with post-fee wealth.
         for _ in range(64):
             mid = (low + high) / 2.0
             residual = mid + fee * np.abs(mid * target - pretrade).sum() - wealth
@@ -228,6 +241,7 @@ def _check_prices(market, date, selected):
 
 
 def _simulate(market, dates, horizon, strategy, decisions, capital, fee):
+    """Track dollar holdings, daily marks and self-financing trades at each close."""
     tickers = market.prices.columns
     positions = np.zeros(len(tickers))
     cash = capital
@@ -236,6 +250,7 @@ def _simulate(market, dates, horizon, strategy, decisions, capital, fee):
     for date in dates:
         previous_nav = nav
         held = positions > 0
+        # Only positions held before today's close earn today's price movement.
         if held.any():
             factors = market.factors.loc[date].to_numpy(dtype=float)
             bad = held & (~np.isfinite(factors) | (factors <= 0))
@@ -246,6 +261,7 @@ def _simulate(market, dates, horizon, strategy, decisions, capital, fee):
         marked = float(positions.sum() + cash)
         gross_return = marked / previous_nav - 1.0
         fee_dollars = traded = 0.0
+        # Terminal liquidation takes precedence over a scheduled rebalance.
         if date == dates[-1]:
             traded = float(positions.sum())
             fee_dollars = fee * traded
@@ -259,6 +275,7 @@ def _simulate(market, dates, horizon, strategy, decisions, capital, fee):
             positions, fee_dollars, traded = _self_financing(positions, target, marked, fee)
             cash = 0.0
         nav = float(positions.sum() + cash)
+        # Costs and turnover use prior NAV, matching both return denominators.
         rows.append(
             {
                 "date": date,
@@ -310,6 +327,7 @@ def summarize_returns(returns: pd.DataFrame, holdout_start: str) -> pd.DataFrame
                 )
             else:
                 r = frame["return"].to_numpy(dtype=float)
+                # Starting wealth makes an initial loss count toward drawdown.
                 path = np.r_[1.0, np.cumprod(1.0 + r)]
                 std = float(np.std(r, ddof=1)) if len(r) > 1 else np.nan
                 row.update(
@@ -368,6 +386,7 @@ def run_backtests(prices, features, config):
         for offset in range(0, len(dates) - 1, horizon):
             entry_date = dates[offset]
             signal_date = market.sessions[market.sessions.get_loc(entry_date) - 1]
+            # Use the refit known at signal close, not at the later execution close.
             refit_date = refits[refits.searchsorted(signal_date, side="right") - 1]
             fitted = fitted_by_date[refit_date]
             frame = _eligible(market, signal_date, top_n)
