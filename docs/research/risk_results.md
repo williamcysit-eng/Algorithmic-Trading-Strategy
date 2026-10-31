@@ -44,6 +44,24 @@ The sample sizes were 2,204 daily, 438 weekly, and 114 monthly episodes. All thr
 
 None of the four methods observedly dominated another in both mean and volatility at daily/weekly horizons. At 19 sessions, inverse volatility had both higher mean and slightly lower volatility than balanced. This is dominance among the four tested historical series only. It is not statistical certification or evidence that a global optimal portfolio has been found.
 
+## Pareto frontier among the tested allocations
+
+The [Pareto figure (PDF)](risk_2026_10_31/pareto_frontier.pdf), [PNG](risk_2026_10_31/pareto_frontier.png), and [SVG](risk_2026_10_31/pareto_frontier.svg) plot mean complete-episode return against its sample standard deviation separately at each horizon. A tested method is dominated if another tested method has no greater volatility and no smaller mean return, with at least one strict improvement. Identical coordinates do not dominate one another.
+
+All four daily and weekly allocations are nondominated among the four tested methods: each reduction in volatility comes with lower average return. At nineteen sessions, balanced is dominated by inverse volatility, which has mean return 0.6988% versus 0.6398% and standard deviation 5.0554% versus 5.0598%. The difference in volatility is small and these classifications use historical point estimates; they are not significance tests.
+
+Only plotted markers represent tested portfolios. The staircase gives the best observed mean return among tested methods whose standard deviation is at most a chosen volatility budget. It does not assume that straight-line interpolation in return/standard-deviation space is achievable. A smooth frontier for new mixtures would require their joint return covariance and a separately labeled analysis; individual standard deviations cannot be averaged to obtain mixture volatility.
+
+The finite Pareto set is broader than the portfolio selected by any particular utility preference. Nondominance does not mean that every such point is optimal for a stated risk aversion, passes the adoption test, or lies on the global frontier across all possible stock portfolios. The horizons have different return intervals, sample sizes, and plot scales and should not be pooled as interchangeable investments.
+
+The reproducible script uses the versioned numerical summaries and independently checks dominance against both a sorted running maximum and the archived classification. It does not refit or change any trading strategy:
+
+```sh
+uv run --frozen python docs/research/plot_pareto.py
+```
+
+Exact coordinates and classifications are in `risk_2026_10_31/pareto_points.csv`; `pareto_manifest.json` records the source and script checksums, definitions, and scope.
+
 ## Risk has several dimensions
 
 Average return among each method's worst 5% of episodes improved under balanced weights: daily -3.40% to -3.15%, weekly -6.81% to -6.49%, and monthly -11.36% to -11.32%. These are empirical tail means, with sparse monthly observations, not guaranteed loss bounds.

@@ -1,0 +1,18 @@
+{
+  "input_file": "episode_metrics.csv",
+  "input_sha256": "cdb523f7823e1176c9388a9efe4fb935423f1d901996581ba43c609eea034048",
+  "script_sha256": "fd88e7cf41f4f4b2599e35d8abfed1c22ca5be2f18fa60c526eafb5b63e4ef36",
+  "period": "all",
+  "units": "mean return and sample standard deviation per complete holding period",
+  "risk_direction": "minimize standard deviation",
+  "return_direction": "maximize mean",
+  "candidate_scope": "four previously tested stock-allocation rules",
+  "frontier_counts": {
+    "1": 4,
+    "5": 4,
+    "19": 3
+  },
+  "validation": "pairwise dominance equals independent sorted scan and archived classification",
+  "steps": "maximum tested mean return among policies meeting each volatility limit",
+  "limits": "historical point estimates; no fitted frontier across all feasible stock portfolios"
+}
