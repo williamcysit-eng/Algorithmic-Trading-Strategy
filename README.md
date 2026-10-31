@@ -6,6 +6,10 @@ The nested forecasting experiment was implemented, tested, and **rejected** unde
 
 The [experiment record](docs/research/nested_results.md) preserves all policy results, failure reasons, data/source hashes, and the independent audit. The tested implementation remains recoverable at revision `f9effe3`. On the active revision, `config.research.json` and `samples/research.json` are archived protocol configurations; the CLI does not implement the nested research command. Passing them to a legacy command does not activate the archived study.
 
+## Risk-allocation investigation
+
+A separate [risk study protocol](docs/research/risk_protocol.md) freezes a narrow comparison before its outcomes: keep the legacy top-five stock decisions fixed and compare equal, inverse-volatility, shrunk minimum-variance, and a 50/50 equal/minimum-variance allocation. `config.risk.json` and `samples/risk.json` record the settings. The study will report empirical return–risk preferences rather than claim a universally best portfolio. Only the predeclared balanced policy can qualify under the corrected utility test and risk/return safeguards; failed strategy integration will be reverted.
+
 ## Archived research protocol
 
 The new study is **exploratory retrospective research**, not a fresh confirmatory holdout. The legacy 2023–2025 results and the extension through 2026-10-21 were inspected before this design. `config.research.json` freezes the candidate grid and analysis settings in version control before the new-model outcomes are run; this is a local protocol freeze, **not independent preregistration**. Do not tune this protocol after seeing its outer results and then claim an untouched test.
