@@ -1,0 +1,115 @@
+{
+  "git_commit": "f9effe3c46131484de9b3136d5e206fa699086ba",
+  "source_sha256": {
+    "__init__.py": "2e9c180fee878c95ef94976c513bec4c444d9c9a80cec9195d9eef1b90805f05",
+    "backtest.py": "64c4332d1f2754ab075e7f2743fa3e6463f358e16772251d0101d4d785914c4a",
+    "cli.py": "d438ca915724808e18bf63e48071938dccfdec1225d11b0833bb7bcae407206d",
+    "data.py": "7fc38e74f3dda8fd7f761514583c088aab3d28ec4e69e78ff78594e8d9979c13",
+    "features.py": "896b745d011754b52ce8ccc8a9104e3f2dab09c9a97104a5d8bfb7653cd88f46",
+    "forecasting.py": "c1eb5825c455e2da8fcb10edee727e391397f6cb061dd1f5e74d84a1cce5c174",
+    "inference.py": "9874d1c7e156a856fa6b481749d993307a10df1af106f2e674de40368c23ea2a",
+    "model.py": "4434be363eecd58730678f3803ef899821d009401b6f0ebf6b15153b8c3b3cc8",
+    "portfolio.py": "141841f81b6cf4695f3a059ec5064ac3f49c21a74be62d9deacca9470604ebce",
+    "reporting.py": "7766464fe23d9b15183d591b2b21930953a1123801d92837d00bccfaffc35f38",
+    "research.py": "4cac396812966c6fb8c2732462d160e2ffd09e3677231a3af004a0d01db28820",
+    "research_reporting.py": "ba4bfaaf5603f17b1225ae8f6fd1d4ab295db35163911161f83d42b3c2121425"
+  },
+  "protocol_sha256": "6edd30476dbff9c53f30193331786bf050e3bb2f548ccb07f33d71b5b8a1d51f",
+  "python": "3.12.14",
+  "dependencies": {
+    "numpy": "2.3.5",
+    "pandas": "2.3.3",
+    "scikit-learn": "1.9.1",
+    "threadpoolctl": "3.7.0"
+  },
+  "evidence_status": "exploratory retrospective; outcomes previously inspected",
+  "bootstrap": "paired complete episodes; circular blocks within outer years; conditional",
+  "selection": "inner mean return; family hyperparameter, then allocation, then policy",
+  "incumbent": "legacy window and vintage schedule; same annually reset execution dates",
+  "path_accounting": "each fold starts with configured capital; period metrics compound returns",
+  "adoption": "only nested; Holm across horizons plus observed loss-frequency/tail safeguards",
+  "warning": "No positive future return or universal optimum is established by this study.",
+  "config_sha256": "8145def772479af8672860665f1e24fdc02b584566cf89233f087b8e91cf1f0d",
+  "data_files": {
+    "prices.csv": {
+      "sha256": "781d0a93f6bc9f3d4b75bcb09012cd1a2c78c9729f03db6269d5e742dede2fae",
+      "rows": 126780
+    },
+    "earnings.csv": {
+      "sha256": "4edca57bae86e0a8b1b7425a4613e5fff3f76ea9fd46393d783c8ac25aebfb14",
+      "rows": 1824
+    },
+    "universe.csv": {
+      "sha256": "823d0709458a2b0479c020bd7dd4e6a4f8ea4b418f212bb36f6628b327ba7d9d",
+      "rows": 30
+    }
+  },
+  "data_manifest_sha256": "c0f15fce956528820bf0184f91cb87432075b1812ce2ff8bc025729e315508cf",
+  "data_coverage": {
+    "actual_price_start": "2010-01-04",
+    "actual_price_end": "2026-10-21",
+    "requested_start": "2010-01-01",
+    "requested_end_exclusive": "2026-10-22"
+  },
+  "run_status": {
+    "command": [
+      "/Users/williamsit/Desktop/Repositories/STAT7008 Project/.venv/bin/python",
+      "-u",
+      "-m",
+      "stock_ensemble.cli",
+      "--config",
+      "config.research.json",
+      "research",
+      "--output",
+      "/Users/williamsit/Desktop/Repositories/STAT7008 Project/results/nested_full"
+    ],
+    "returncode": 0,
+    "seconds": 324.4310800420062
+  },
+  "generated_artifact_sha256": {
+    "adoption.csv": "d8a9dfafb21b6820d310f99c33d460470811d7a6d5dd868f20285cdfcadf2dc0",
+    "comparisons.csv": "eb1ada39400a2fc48920cb7e0cbe4ab82c1911ba9ef88961b5145b94f82732eb",
+    "episode_metrics.csv": "47a5d5cdf949ed7bace2664fcc04cef3efb57a22c84c223b83163c740db613a3",
+    "episodes.csv": "7715c57f4254bf8298d87d60db472fd6834f284fea2a4433c9b6ffde02c7d981",
+    "fits.json": "d7a85c8ecd136ba51b844333119ef707218a0475a92a865f892c34218bf98f5f",
+    "forecast_metrics.csv": "1798137a4c983a80062fb45b573d62ad93a37efbcf9ceded6d841b4cb2ba2e77",
+    "forecasts.csv.gz": "28e536606b3e446f23a567c3e8e0f5afb2035dad9146c79d92677d8c6f68013f",
+    "holdings.csv.gz": "330418208f71587382fc0252d297e10956dfc611a46ee2ff1a9a7f431bf14d08",
+    "independent_audit.json": "c7a87443c5b51098db1da30614f4b3e77974c51eb329cde79c5cedd1318e2289",
+    "path_metrics.csv": "74c0aabb3f96bc17e6f4eaf067d109885e6e4c099d3ed151cb07a9670529457c",
+    "returns.csv": "fbe55ae6ff8516cdce4ef9c53a4f053134fdafa0d6695cc3e63b873da9e9bef1",
+    "run_manifest.json": "f0779eff267a844a2069951cab305cc3498b6bfbc889cf26bbdc91893376a53e",
+    "selection_scores.csv": "a044cb8dee9e0c4086d1884eaffb5158ed0ab378d35f7242a0c123c8796e6854",
+    "selections.json": "f6d0ed3d5bd2a379586ebe6e628326f5f6a9026b2bef7f05538c6cfc52791d5e"
+  },
+  "validation": {
+    "pytest": "33 passed",
+    "ruff": "passed",
+    "sample_numeric_artifacts_unchanged": 10,
+    "independent_full_audit": {
+      "episode_rows": 24804,
+      "daily_rows": 119502,
+      "fit_boundaries": 3166,
+      "annual_selections": 27,
+      "saved_incumbent_vintages_matched": 214,
+      "maximum_episode_absolute_error": 7.077671781985373e-16,
+      "maximum_nav_relative_error": 8.215650382226158e-14,
+      "bootstrap_comparisons": 54,
+      "adoption_checks": 3,
+      "status": "passed",
+      "source_commit": "f9effe3c46131484de9b3136d5e206fa699086ba"
+    }
+  },
+  "archived_evidence_sha256": {
+    "adoption.csv": "d8a9dfafb21b6820d310f99c33d460470811d7a6d5dd868f20285cdfcadf2dc0",
+    "comparisons.csv": "eb1ada39400a2fc48920cb7e0cbe4ab82c1911ba9ef88961b5145b94f82732eb",
+    "episode_metrics.csv": "47a5d5cdf949ed7bace2664fcc04cef3efb57a22c84c223b83163c740db613a3",
+    "fold_episode_metrics.csv": "6fdd8742747997bf3b03d2d5069b94924b7276ce15f58da737415d5c4581a58f",
+    "forecast_metrics.csv": "1798137a4c983a80062fb45b573d62ad93a37efbcf9ceded6d841b4cb2ba2e77",
+    "forecast_summary.csv": "9d6a6e534966aa70c3b48d3f7a116437baefa40c20befcf892c41b7b8324a464",
+    "independent_audit.json": "c7a87443c5b51098db1da30614f4b3e77974c51eb329cde79c5cedd1318e2289",
+    "path_metrics.csv": "74c0aabb3f96bc17e6f4eaf067d109885e6e4c099d3ed151cb07a9670529457c",
+    "selection_scores.csv": "a044cb8dee9e0c4086d1884eaffb5158ed0ab378d35f7242a0c123c8796e6854",
+    "selections.json": "f6d0ed3d5bd2a379586ebe6e628326f5f6a9026b2bef7f05538c6cfc52791d5e"
+  }
+}

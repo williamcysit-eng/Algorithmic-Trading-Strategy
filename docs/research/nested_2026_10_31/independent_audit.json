@@ -1,0 +1,13 @@
+{
+  "episode_rows": 24804,
+  "daily_rows": 119502,
+  "fit_boundaries": 3166,
+  "annual_selections": 27,
+  "saved_incumbent_vintages_matched": 214,
+  "maximum_episode_absolute_error": 7.077671781985373e-16,
+  "maximum_nav_relative_error": 8.215650382226158e-14,
+  "bootstrap_comparisons": 54,
+  "adoption_checks": 3,
+  "status": "passed",
+  "source_commit": "f9effe3c46131484de9b3136d5e206fa699086ba"
+}

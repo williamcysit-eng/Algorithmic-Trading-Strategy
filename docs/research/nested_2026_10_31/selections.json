@@ -1,0 +1,1217 @@
+[
+  {
+    "horizon": 1,
+    "selection_date": "2017-12-29 00:00:00",
+    "inner_start": "2016-06-29 00:00:00",
+    "inner_exit": "2017-12-28 00:00:00",
+    "champion": "ridge_regularized",
+    "choices": {
+      "momentum": {
+        "candidate": "momentum",
+        "method": "equal",
+        "penalty": null
+      },
+      "equal_signal": {
+        "candidate": "equal_signal",
+        "method": "equal",
+        "penalty": null
+      },
+      "rank_ensemble": {
+        "candidate": "rank_ensemble",
+        "method": "equal",
+        "penalty": null
+      },
+      "ridge_equal": {
+        "candidate": "ridge_alpha_100",
+        "method": "equal",
+        "penalty": null
+      },
+      "boosted_equal": {
+        "candidate": "boosted_depth_2",
+        "method": "equal",
+        "penalty": null
+      },
+      "ridge_regularized": {
+        "candidate": "ridge_alpha_100",
+        "method": "regularized",
+        "penalty": 0.01
+      },
+      "boosted_regularized": {
+        "candidate": "boosted_depth_2",
+        "method": "regularized",
+        "penalty": 0.01
+      }
+    },
+    "fold": 2018
+  },
+  {
+    "horizon": 1,
+    "selection_date": "2018-12-31 00:00:00",
+    "inner_start": "2017-06-28 00:00:00",
+    "inner_exit": "2018-12-28 00:00:00",
+    "champion": "momentum",
+    "choices": {
+      "momentum": {
+        "candidate": "momentum",
+        "method": "equal",
+        "penalty": null
+      },
+      "equal_signal": {
+        "candidate": "equal_signal",
+        "method": "equal",
+        "penalty": null
+      },
+      "rank_ensemble": {
+        "candidate": "rank_ensemble",
+        "method": "equal",
+        "penalty": null
+      },
+      "ridge_equal": {
+        "candidate": "ridge_alpha_1",
+        "method": "equal",
+        "penalty": null
+      },
+      "boosted_equal": {
+        "candidate": "boosted_depth_2",
+        "method": "equal",
+        "penalty": null
+      },
+      "ridge_regularized": {
+        "candidate": "ridge_alpha_1",
+        "method": "regularized",
+        "penalty": 0.1
+      },
+      "boosted_regularized": {
+        "candidate": "boosted_depth_2",
+        "method": "regularized",
+        "penalty": 0.1
+      }
+    },
+    "fold": 2019
+  },
+  {
+    "horizon": 1,
+    "selection_date": "2019-12-31 00:00:00",
+    "inner_start": "2018-06-28 00:00:00",
+    "inner_exit": "2019-12-30 00:00:00",
+    "champion": "boosted_regularized",
+    "choices": {
+      "momentum": {
+        "candidate": "momentum",
+        "method": "equal",
+        "penalty": null
+      },
+      "equal_signal": {
+        "candidate": "equal_signal",
+        "method": "equal",
+        "penalty": null
+      },
+      "rank_ensemble": {
+        "candidate": "rank_ensemble",
+        "method": "equal",
+        "penalty": null
+      },
+      "ridge_equal": {
+        "candidate": "ridge_alpha_100",
+        "method": "equal",
+        "penalty": null
+      },
+      "boosted_equal": {
+        "candidate": "boosted_depth_3",
+        "method": "equal",
+        "penalty": null
+      },
+      "ridge_regularized": {
+        "candidate": "ridge_alpha_100",
+        "method": "regularized",
+        "penalty": 0.1
+      },
+      "boosted_regularized": {
+        "candidate": "boosted_depth_3",
+        "method": "regularized",
+        "penalty": 0.01
+      }
+    },
+    "fold": 2020
+  },
+  {
+    "horizon": 1,
+    "selection_date": "2020-12-31 00:00:00",
+    "inner_start": "2019-07-02 00:00:00",
+    "inner_exit": "2020-12-30 00:00:00",
+    "champion": "momentum",
+    "choices": {
+      "momentum": {
+        "candidate": "momentum",
+        "method": "equal",
+        "penalty": null
+      },
+      "equal_signal": {
+        "candidate": "equal_signal",
+        "method": "equal",
+        "penalty": null
+      },
+      "rank_ensemble": {
+        "candidate": "rank_ensemble",
+        "method": "equal",
+        "penalty": null
+      },
+      "ridge_equal": {
+        "candidate": "ridge_alpha_100",
+        "method": "equal",
+        "penalty": null
+      },
+      "boosted_equal": {
+        "candidate": "boosted_depth_3",
+        "method": "equal",
+        "penalty": null
+      },
+      "ridge_regularized": {
+        "candidate": "ridge_alpha_100",
+        "method": "regularized",
+        "penalty": 0.1
+      },
+      "boosted_regularized": {
+        "candidate": "boosted_depth_3",
+        "method": "regularized",
+        "penalty": 0.1
+      }
+    },
+    "fold": 2021
+  },
+  {
+    "horizon": 1,
+    "selection_date": "2021-12-31 00:00:00",
+    "inner_start": "2020-07-01 00:00:00",
+    "inner_exit": "2021-12-30 00:00:00",
+    "champion": "equal_signal",
+    "choices": {
+      "momentum": {
+        "candidate": "momentum",
+        "method": "equal",
+        "penalty": null
+      },
+      "equal_signal": {
+        "candidate": "equal_signal",
+        "method": "equal",
+        "penalty": null
+      },
+      "rank_ensemble": {
+        "candidate": "rank_ensemble",
+        "method": "equal",
+        "penalty": null
+      },
+      "ridge_equal": {
+        "candidate": "ridge_alpha_100",
+        "method": "equal",
+        "penalty": null
+      },
+      "boosted_equal": {
+        "candidate": "boosted_depth_3",
+        "method": "equal",
+        "penalty": null
+      },
+      "ridge_regularized": {
+        "candidate": "ridge_alpha_100",
+        "method": "regularized",
+        "penalty": 0.01
+      },
+      "boosted_regularized": {
+        "candidate": "boosted_depth_3",
+        "method": "regularized",
+        "penalty": 0.1
+      }
+    },
+    "fold": 2022
+  },
+  {
+    "horizon": 1,
+    "selection_date": "2022-12-30 00:00:00",
+    "inner_start": "2021-06-30 00:00:00",
+    "inner_exit": "2022-12-29 00:00:00",
+    "champion": "equal_signal",
+    "choices": {
+      "momentum": {
+        "candidate": "momentum",
+        "method": "equal",
+        "penalty": null
+      },
+      "equal_signal": {
+        "candidate": "equal_signal",
+        "method": "equal",
+        "penalty": null
+      },
+      "rank_ensemble": {
+        "candidate": "rank_ensemble",
+        "method": "equal",
+        "penalty": null
+      },
+      "ridge_equal": {
+        "candidate": "ridge_alpha_1",
+        "method": "equal",
+        "penalty": null
+      },
+      "boosted_equal": {
+        "candidate": "boosted_depth_2",
+        "method": "equal",
+        "penalty": null
+      },
+      "ridge_regularized": {
+        "candidate": "ridge_alpha_1",
+        "method": "regularized",
+        "penalty": 0.1
+      },
+      "boosted_regularized": {
+        "candidate": "boosted_depth_2",
+        "method": "regularized",
+        "penalty": 0.01
+      }
+    },
+    "fold": 2023
+  },
+  {
+    "horizon": 1,
+    "selection_date": "2023-12-29 00:00:00",
+    "inner_start": "2022-06-28 00:00:00",
+    "inner_exit": "2023-12-28 00:00:00",
+    "champion": "boosted_regularized",
+    "choices": {
+      "momentum": {
+        "candidate": "momentum",
+        "method": "equal",
+        "penalty": null
+      },
+      "equal_signal": {
+        "candidate": "equal_signal",
+        "method": "equal",
+        "penalty": null
+      },
+      "rank_ensemble": {
+        "candidate": "rank_ensemble",
+        "method": "equal",
+        "penalty": null
+      },
+      "ridge_equal": {
+        "candidate": "ridge_alpha_1",
+        "method": "equal",
+        "penalty": null
+      },
+      "boosted_equal": {
+        "candidate": "boosted_depth_3",
+        "method": "equal",
+        "penalty": null
+      },
+      "ridge_regularized": {
+        "candidate": "ridge_alpha_1",
+        "method": "regularized",
+        "penalty": 0.01
+      },
+      "boosted_regularized": {
+        "candidate": "boosted_depth_3",
+        "method": "regularized",
+        "penalty": 0.01
+      }
+    },
+    "fold": 2024
+  },
+  {
+    "horizon": 1,
+    "selection_date": "2024-12-31 00:00:00",
+    "inner_start": "2023-06-29 00:00:00",
+    "inner_exit": "2024-12-30 00:00:00",
+    "champion": "ridge_regularized",
+    "choices": {
+      "momentum": {
+        "candidate": "momentum",
+        "method": "equal",
+        "penalty": null
+      },
+      "equal_signal": {
+        "candidate": "equal_signal",
+        "method": "equal",
+        "penalty": null
+      },
+      "rank_ensemble": {
+        "candidate": "rank_ensemble",
+        "method": "equal",
+        "penalty": null
+      },
+      "ridge_equal": {
+        "candidate": "ridge_alpha_1",
+        "method": "equal",
+        "penalty": null
+      },
+      "boosted_equal": {
+        "candidate": "boosted_depth_3",
+        "method": "equal",
+        "penalty": null
+      },
+      "ridge_regularized": {
+        "candidate": "ridge_alpha_1",
+        "method": "regularized",
+        "penalty": 0.01
+      },
+      "boosted_regularized": {
+        "candidate": "boosted_depth_3",
+        "method": "regularized",
+        "penalty": 0.01
+      }
+    },
+    "fold": 2025
+  },
+  {
+    "horizon": 1,
+    "selection_date": "2025-12-31 00:00:00",
+    "inner_start": "2024-06-27 00:00:00",
+    "inner_exit": "2025-12-30 00:00:00",
+    "champion": "ridge_equal",
+    "choices": {
+      "momentum": {
+        "candidate": "momentum",
+        "method": "equal",
+        "penalty": null
+      },
+      "equal_signal": {
+        "candidate": "equal_signal",
+        "method": "equal",
+        "penalty": null
+      },
+      "rank_ensemble": {
+        "candidate": "rank_ensemble",
+        "method": "equal",
+        "penalty": null
+      },
+      "ridge_equal": {
+        "candidate": "ridge_alpha_100",
+        "method": "equal",
+        "penalty": null
+      },
+      "boosted_equal": {
+        "candidate": "boosted_depth_3",
+        "method": "equal",
+        "penalty": null
+      },
+      "ridge_regularized": {
+        "candidate": "ridge_alpha_100",
+        "method": "regularized",
+        "penalty": 0.1
+      },
+      "boosted_regularized": {
+        "candidate": "boosted_depth_3",
+        "method": "regularized",
+        "penalty": 0.01
+      }
+    },
+    "fold": 2026
+  },
+  {
+    "horizon": 5,
+    "selection_date": "2017-12-29 00:00:00",
+    "inner_start": "2016-06-29 00:00:00",
+    "inner_exit": "2017-12-28 00:00:00",
+    "champion": "ridge_regularized",
+    "choices": {
+      "momentum": {
+        "candidate": "momentum",
+        "method": "equal",
+        "penalty": null
+      },
+      "equal_signal": {
+        "candidate": "equal_signal",
+        "method": "equal",
+        "penalty": null
+      },
+      "rank_ensemble": {
+        "candidate": "rank_ensemble",
+        "method": "equal",
+        "penalty": null
+      },
+      "ridge_equal": {
+        "candidate": "ridge_alpha_100",
+        "method": "equal",
+        "penalty": null
+      },
+      "boosted_equal": {
+        "candidate": "boosted_depth_2",
+        "method": "equal",
+        "penalty": null
+      },
+      "ridge_regularized": {
+        "candidate": "ridge_alpha_100",
+        "method": "regularized",
+        "penalty": 0.01
+      },
+      "boosted_regularized": {
+        "candidate": "boosted_depth_2",
+        "method": "regularized",
+        "penalty": 0.01
+      }
+    },
+    "fold": 2018
+  },
+  {
+    "horizon": 5,
+    "selection_date": "2018-12-31 00:00:00",
+    "inner_start": "2017-06-28 00:00:00",
+    "inner_exit": "2018-12-28 00:00:00",
+    "champion": "equal_signal",
+    "choices": {
+      "momentum": {
+        "candidate": "momentum",
+        "method": "equal",
+        "penalty": null
+      },
+      "equal_signal": {
+        "candidate": "equal_signal",
+        "method": "equal",
+        "penalty": null
+      },
+      "rank_ensemble": {
+        "candidate": "rank_ensemble",
+        "method": "equal",
+        "penalty": null
+      },
+      "ridge_equal": {
+        "candidate": "ridge_alpha_1",
+        "method": "equal",
+        "penalty": null
+      },
+      "boosted_equal": {
+        "candidate": "boosted_depth_2",
+        "method": "equal",
+        "penalty": null
+      },
+      "ridge_regularized": {
+        "candidate": "ridge_alpha_1",
+        "method": "regularized",
+        "penalty": 0.01
+      },
+      "boosted_regularized": {
+        "candidate": "boosted_depth_2",
+        "method": "regularized",
+        "penalty": 0.01
+      }
+    },
+    "fold": 2019
+  },
+  {
+    "horizon": 5,
+    "selection_date": "2019-12-31 00:00:00",
+    "inner_start": "2018-06-28 00:00:00",
+    "inner_exit": "2019-12-30 00:00:00",
+    "champion": "boosted_regularized",
+    "choices": {
+      "momentum": {
+        "candidate": "momentum",
+        "method": "equal",
+        "penalty": null
+      },
+      "equal_signal": {
+        "candidate": "equal_signal",
+        "method": "equal",
+        "penalty": null
+      },
+      "rank_ensemble": {
+        "candidate": "rank_ensemble",
+        "method": "equal",
+        "penalty": null
+      },
+      "ridge_equal": {
+        "candidate": "ridge_alpha_100",
+        "method": "equal",
+        "penalty": null
+      },
+      "boosted_equal": {
+        "candidate": "boosted_depth_3",
+        "method": "equal",
+        "penalty": null
+      },
+      "ridge_regularized": {
+        "candidate": "ridge_alpha_100",
+        "method": "regularized",
+        "penalty": 0.1
+      },
+      "boosted_regularized": {
+        "candidate": "boosted_depth_3",
+        "method": "regularized",
+        "penalty": 0.01
+      }
+    },
+    "fold": 2020
+  },
+  {
+    "horizon": 5,
+    "selection_date": "2020-12-31 00:00:00",
+    "inner_start": "2019-07-02 00:00:00",
+    "inner_exit": "2020-12-30 00:00:00",
+    "champion": "ridge_equal",
+    "choices": {
+      "momentum": {
+        "candidate": "momentum",
+        "method": "equal",
+        "penalty": null
+      },
+      "equal_signal": {
+        "candidate": "equal_signal",
+        "method": "equal",
+        "penalty": null
+      },
+      "rank_ensemble": {
+        "candidate": "rank_ensemble",
+        "method": "equal",
+        "penalty": null
+      },
+      "ridge_equal": {
+        "candidate": "ridge_alpha_100",
+        "method": "equal",
+        "penalty": null
+      },
+      "boosted_equal": {
+        "candidate": "boosted_depth_3",
+        "method": "equal",
+        "penalty": null
+      },
+      "ridge_regularized": {
+        "candidate": "ridge_alpha_100",
+        "method": "regularized",
+        "penalty": 0.1
+      },
+      "boosted_regularized": {
+        "candidate": "boosted_depth_3",
+        "method": "regularized",
+        "penalty": 0.1
+      }
+    },
+    "fold": 2021
+  },
+  {
+    "horizon": 5,
+    "selection_date": "2021-12-31 00:00:00",
+    "inner_start": "2020-07-01 00:00:00",
+    "inner_exit": "2021-12-30 00:00:00",
+    "champion": "ridge_equal",
+    "choices": {
+      "momentum": {
+        "candidate": "momentum",
+        "method": "equal",
+        "penalty": null
+      },
+      "equal_signal": {
+        "candidate": "equal_signal",
+        "method": "equal",
+        "penalty": null
+      },
+      "rank_ensemble": {
+        "candidate": "rank_ensemble",
+        "method": "equal",
+        "penalty": null
+      },
+      "ridge_equal": {
+        "candidate": "ridge_alpha_1",
+        "method": "equal",
+        "penalty": null
+      },
+      "boosted_equal": {
+        "candidate": "boosted_depth_3",
+        "method": "equal",
+        "penalty": null
+      },
+      "ridge_regularized": {
+        "candidate": "ridge_alpha_1",
+        "method": "regularized",
+        "penalty": 0.1
+      },
+      "boosted_regularized": {
+        "candidate": "boosted_depth_3",
+        "method": "regularized",
+        "penalty": 0.1
+      }
+    },
+    "fold": 2022
+  },
+  {
+    "horizon": 5,
+    "selection_date": "2022-12-30 00:00:00",
+    "inner_start": "2021-06-30 00:00:00",
+    "inner_exit": "2022-12-29 00:00:00",
+    "champion": "boosted_regularized",
+    "choices": {
+      "momentum": {
+        "candidate": "momentum",
+        "method": "equal",
+        "penalty": null
+      },
+      "equal_signal": {
+        "candidate": "equal_signal",
+        "method": "equal",
+        "penalty": null
+      },
+      "rank_ensemble": {
+        "candidate": "rank_ensemble",
+        "method": "equal",
+        "penalty": null
+      },
+      "ridge_equal": {
+        "candidate": "ridge_alpha_100",
+        "method": "equal",
+        "penalty": null
+      },
+      "boosted_equal": {
+        "candidate": "boosted_depth_2",
+        "method": "equal",
+        "penalty": null
+      },
+      "ridge_regularized": {
+        "candidate": "ridge_alpha_100",
+        "method": "regularized",
+        "penalty": 0.1
+      },
+      "boosted_regularized": {
+        "candidate": "boosted_depth_2",
+        "method": "regularized",
+        "penalty": 0.01
+      }
+    },
+    "fold": 2023
+  },
+  {
+    "horizon": 5,
+    "selection_date": "2023-12-29 00:00:00",
+    "inner_start": "2022-06-28 00:00:00",
+    "inner_exit": "2023-12-28 00:00:00",
+    "champion": "boosted_regularized",
+    "choices": {
+      "momentum": {
+        "candidate": "momentum",
+        "method": "equal",
+        "penalty": null
+      },
+      "equal_signal": {
+        "candidate": "equal_signal",
+        "method": "equal",
+        "penalty": null
+      },
+      "rank_ensemble": {
+        "candidate": "rank_ensemble",
+        "method": "equal",
+        "penalty": null
+      },
+      "ridge_equal": {
+        "candidate": "ridge_alpha_1",
+        "method": "equal",
+        "penalty": null
+      },
+      "boosted_equal": {
+        "candidate": "boosted_depth_2",
+        "method": "equal",
+        "penalty": null
+      },
+      "ridge_regularized": {
+        "candidate": "ridge_alpha_1",
+        "method": "regularized",
+        "penalty": 0.01
+      },
+      "boosted_regularized": {
+        "candidate": "boosted_depth_2",
+        "method": "regularized",
+        "penalty": 0.01
+      }
+    },
+    "fold": 2024
+  },
+  {
+    "horizon": 5,
+    "selection_date": "2024-12-31 00:00:00",
+    "inner_start": "2023-06-29 00:00:00",
+    "inner_exit": "2024-12-30 00:00:00",
+    "champion": "boosted_regularized",
+    "choices": {
+      "momentum": {
+        "candidate": "momentum",
+        "method": "equal",
+        "penalty": null
+      },
+      "equal_signal": {
+        "candidate": "equal_signal",
+        "method": "equal",
+        "penalty": null
+      },
+      "rank_ensemble": {
+        "candidate": "rank_ensemble",
+        "method": "equal",
+        "penalty": null
+      },
+      "ridge_equal": {
+        "candidate": "ridge_alpha_1",
+        "method": "equal",
+        "penalty": null
+      },
+      "boosted_equal": {
+        "candidate": "boosted_depth_3",
+        "method": "equal",
+        "penalty": null
+      },
+      "ridge_regularized": {
+        "candidate": "ridge_alpha_1",
+        "method": "regularized",
+        "penalty": 0.01
+      },
+      "boosted_regularized": {
+        "candidate": "boosted_depth_3",
+        "method": "regularized",
+        "penalty": 0.01
+      }
+    },
+    "fold": 2025
+  },
+  {
+    "horizon": 5,
+    "selection_date": "2025-12-31 00:00:00",
+    "inner_start": "2024-06-27 00:00:00",
+    "inner_exit": "2025-12-30 00:00:00",
+    "champion": "boosted_regularized",
+    "choices": {
+      "momentum": {
+        "candidate": "momentum",
+        "method": "equal",
+        "penalty": null
+      },
+      "equal_signal": {
+        "candidate": "equal_signal",
+        "method": "equal",
+        "penalty": null
+      },
+      "rank_ensemble": {
+        "candidate": "rank_ensemble",
+        "method": "equal",
+        "penalty": null
+      },
+      "ridge_equal": {
+        "candidate": "ridge_alpha_1",
+        "method": "equal",
+        "penalty": null
+      },
+      "boosted_equal": {
+        "candidate": "boosted_depth_2",
+        "method": "equal",
+        "penalty": null
+      },
+      "ridge_regularized": {
+        "candidate": "ridge_alpha_1",
+        "method": "regularized",
+        "penalty": 0.1
+      },
+      "boosted_regularized": {
+        "candidate": "boosted_depth_2",
+        "method": "regularized",
+        "penalty": 0.1
+      }
+    },
+    "fold": 2026
+  },
+  {
+    "horizon": 19,
+    "selection_date": "2017-12-29 00:00:00",
+    "inner_start": "2016-06-29 00:00:00",
+    "inner_exit": "2017-12-28 00:00:00",
+    "champion": "ridge_regularized",
+    "choices": {
+      "momentum": {
+        "candidate": "momentum",
+        "method": "equal",
+        "penalty": null
+      },
+      "equal_signal": {
+        "candidate": "equal_signal",
+        "method": "equal",
+        "penalty": null
+      },
+      "rank_ensemble": {
+        "candidate": "rank_ensemble",
+        "method": "equal",
+        "penalty": null
+      },
+      "ridge_equal": {
+        "candidate": "ridge_alpha_100",
+        "method": "equal",
+        "penalty": null
+      },
+      "boosted_equal": {
+        "candidate": "boosted_depth_3",
+        "method": "equal",
+        "penalty": null
+      },
+      "ridge_regularized": {
+        "candidate": "ridge_alpha_100",
+        "method": "regularized",
+        "penalty": 0.01
+      },
+      "boosted_regularized": {
+        "candidate": "boosted_depth_3",
+        "method": "regularized",
+        "penalty": 0.1
+      }
+    },
+    "fold": 2018
+  },
+  {
+    "horizon": 19,
+    "selection_date": "2018-12-31 00:00:00",
+    "inner_start": "2017-06-28 00:00:00",
+    "inner_exit": "2018-12-28 00:00:00",
+    "champion": "momentum",
+    "choices": {
+      "momentum": {
+        "candidate": "momentum",
+        "method": "equal",
+        "penalty": null
+      },
+      "equal_signal": {
+        "candidate": "equal_signal",
+        "method": "equal",
+        "penalty": null
+      },
+      "rank_ensemble": {
+        "candidate": "rank_ensemble",
+        "method": "equal",
+        "penalty": null
+      },
+      "ridge_equal": {
+        "candidate": "ridge_alpha_100",
+        "method": "equal",
+        "penalty": null
+      },
+      "boosted_equal": {
+        "candidate": "boosted_depth_2",
+        "method": "equal",
+        "penalty": null
+      },
+      "ridge_regularized": {
+        "candidate": "ridge_alpha_100",
+        "method": "regularized",
+        "penalty": 0.01
+      },
+      "boosted_regularized": {
+        "candidate": "boosted_depth_2",
+        "method": "regularized",
+        "penalty": 0.01
+      }
+    },
+    "fold": 2019
+  },
+  {
+    "horizon": 19,
+    "selection_date": "2019-12-31 00:00:00",
+    "inner_start": "2018-06-28 00:00:00",
+    "inner_exit": "2019-12-30 00:00:00",
+    "champion": "equal_signal",
+    "choices": {
+      "momentum": {
+        "candidate": "momentum",
+        "method": "equal",
+        "penalty": null
+      },
+      "equal_signal": {
+        "candidate": "equal_signal",
+        "method": "equal",
+        "penalty": null
+      },
+      "rank_ensemble": {
+        "candidate": "rank_ensemble",
+        "method": "equal",
+        "penalty": null
+      },
+      "ridge_equal": {
+        "candidate": "ridge_alpha_1",
+        "method": "equal",
+        "penalty": null
+      },
+      "boosted_equal": {
+        "candidate": "boosted_depth_3",
+        "method": "equal",
+        "penalty": null
+      },
+      "ridge_regularized": {
+        "candidate": "ridge_alpha_1",
+        "method": "regularized",
+        "penalty": 0.1
+      },
+      "boosted_regularized": {
+        "candidate": "boosted_depth_3",
+        "method": "regularized",
+        "penalty": 0.01
+      }
+    },
+    "fold": 2020
+  },
+  {
+    "horizon": 19,
+    "selection_date": "2020-12-31 00:00:00",
+    "inner_start": "2019-07-02 00:00:00",
+    "inner_exit": "2020-12-30 00:00:00",
+    "champion": "boosted_regularized",
+    "choices": {
+      "momentum": {
+        "candidate": "momentum",
+        "method": "equal",
+        "penalty": null
+      },
+      "equal_signal": {
+        "candidate": "equal_signal",
+        "method": "equal",
+        "penalty": null
+      },
+      "rank_ensemble": {
+        "candidate": "rank_ensemble",
+        "method": "equal",
+        "penalty": null
+      },
+      "ridge_equal": {
+        "candidate": "ridge_alpha_1",
+        "method": "equal",
+        "penalty": null
+      },
+      "boosted_equal": {
+        "candidate": "boosted_depth_2",
+        "method": "equal",
+        "penalty": null
+      },
+      "ridge_regularized": {
+        "candidate": "ridge_alpha_1",
+        "method": "regularized",
+        "penalty": 0.01
+      },
+      "boosted_regularized": {
+        "candidate": "boosted_depth_2",
+        "method": "regularized",
+        "penalty": 0.01
+      }
+    },
+    "fold": 2021
+  },
+  {
+    "horizon": 19,
+    "selection_date": "2021-12-31 00:00:00",
+    "inner_start": "2020-07-01 00:00:00",
+    "inner_exit": "2021-12-30 00:00:00",
+    "champion": "boosted_regularized",
+    "choices": {
+      "momentum": {
+        "candidate": "momentum",
+        "method": "equal",
+        "penalty": null
+      },
+      "equal_signal": {
+        "candidate": "equal_signal",
+        "method": "equal",
+        "penalty": null
+      },
+      "rank_ensemble": {
+        "candidate": "rank_ensemble",
+        "method": "equal",
+        "penalty": null
+      },
+      "ridge_equal": {
+        "candidate": "ridge_alpha_1",
+        "method": "equal",
+        "penalty": null
+      },
+      "boosted_equal": {
+        "candidate": "boosted_depth_3",
+        "method": "equal",
+        "penalty": null
+      },
+      "ridge_regularized": {
+        "candidate": "ridge_alpha_1",
+        "method": "regularized",
+        "penalty": 0.01
+      },
+      "boosted_regularized": {
+        "candidate": "boosted_depth_3",
+        "method": "regularized",
+        "penalty": 0.01
+      }
+    },
+    "fold": 2022
+  },
+  {
+    "horizon": 19,
+    "selection_date": "2022-12-30 00:00:00",
+    "inner_start": "2021-06-30 00:00:00",
+    "inner_exit": "2022-12-29 00:00:00",
+    "champion": "equal_signal",
+    "choices": {
+      "momentum": {
+        "candidate": "momentum",
+        "method": "equal",
+        "penalty": null
+      },
+      "equal_signal": {
+        "candidate": "equal_signal",
+        "method": "equal",
+        "penalty": null
+      },
+      "rank_ensemble": {
+        "candidate": "rank_ensemble",
+        "method": "equal",
+        "penalty": null
+      },
+      "ridge_equal": {
+        "candidate": "ridge_alpha_1",
+        "method": "equal",
+        "penalty": null
+      },
+      "boosted_equal": {
+        "candidate": "boosted_depth_3",
+        "method": "equal",
+        "penalty": null
+      },
+      "ridge_regularized": {
+        "candidate": "ridge_alpha_1",
+        "method": "regularized",
+        "penalty": 0.01
+      },
+      "boosted_regularized": {
+        "candidate": "boosted_depth_3",
+        "method": "regularized",
+        "penalty": 0.01
+      }
+    },
+    "fold": 2023
+  },
+  {
+    "horizon": 19,
+    "selection_date": "2023-12-29 00:00:00",
+    "inner_start": "2022-06-28 00:00:00",
+    "inner_exit": "2023-12-28 00:00:00",
+    "champion": "boosted_regularized",
+    "choices": {
+      "momentum": {
+        "candidate": "momentum",
+        "method": "equal",
+        "penalty": null
+      },
+      "equal_signal": {
+        "candidate": "equal_signal",
+        "method": "equal",
+        "penalty": null
+      },
+      "rank_ensemble": {
+        "candidate": "rank_ensemble",
+        "method": "equal",
+        "penalty": null
+      },
+      "ridge_equal": {
+        "candidate": "ridge_alpha_100",
+        "method": "equal",
+        "penalty": null
+      },
+      "boosted_equal": {
+        "candidate": "boosted_depth_2",
+        "method": "equal",
+        "penalty": null
+      },
+      "ridge_regularized": {
+        "candidate": "ridge_alpha_100",
+        "method": "regularized",
+        "penalty": 0.01
+      },
+      "boosted_regularized": {
+        "candidate": "boosted_depth_2",
+        "method": "regularized",
+        "penalty": 0.01
+      }
+    },
+    "fold": 2024
+  },
+  {
+    "horizon": 19,
+    "selection_date": "2024-12-31 00:00:00",
+    "inner_start": "2023-06-29 00:00:00",
+    "inner_exit": "2024-12-30 00:00:00",
+    "champion": "boosted_equal",
+    "choices": {
+      "momentum": {
+        "candidate": "momentum",
+        "method": "equal",
+        "penalty": null
+      },
+      "equal_signal": {
+        "candidate": "equal_signal",
+        "method": "equal",
+        "penalty": null
+      },
+      "rank_ensemble": {
+        "candidate": "rank_ensemble",
+        "method": "equal",
+        "penalty": null
+      },
+      "ridge_equal": {
+        "candidate": "ridge_alpha_1",
+        "method": "equal",
+        "penalty": null
+      },
+      "boosted_equal": {
+        "candidate": "boosted_depth_3",
+        "method": "equal",
+        "penalty": null
+      },
+      "ridge_regularized": {
+        "candidate": "ridge_alpha_1",
+        "method": "regularized",
+        "penalty": 0.01
+      },
+      "boosted_regularized": {
+        "candidate": "boosted_depth_3",
+        "method": "regularized",
+        "penalty": 0.1
+      }
+    },
+    "fold": 2025
+  },
+  {
+    "horizon": 19,
+    "selection_date": "2025-12-31 00:00:00",
+    "inner_start": "2024-06-27 00:00:00",
+    "inner_exit": "2025-12-30 00:00:00",
+    "champion": "ridge_regularized",
+    "choices": {
+      "momentum": {
+        "candidate": "momentum",
+        "method": "equal",
+        "penalty": null
+      },
+      "equal_signal": {
+        "candidate": "equal_signal",
+        "method": "equal",
+        "penalty": null
+      },
+      "rank_ensemble": {
+        "candidate": "rank_ensemble",
+        "method": "equal",
+        "penalty": null
+      },
+      "ridge_equal": {
+        "candidate": "ridge_alpha_100",
+        "method": "equal",
+        "penalty": null
+      },
+      "boosted_equal": {
+        "candidate": "boosted_depth_2",
+        "method": "equal",
+        "penalty": null
+      },
+      "ridge_regularized": {
+        "candidate": "ridge_alpha_100",
+        "method": "regularized",
+        "penalty": 0.01
+      },
+      "boosted_regularized": {
+        "candidate": "boosted_depth_2",
+        "method": "regularized",
+        "penalty": 0.01
+      }
+    },
+    "fold": 2026
+  }
+]
