@@ -1,0 +1,29 @@
+{
+  "purpose": "Actual issuer-source capture demonstration; no earnings values extracted or model feature changed",
+  "source_title": "Apple reports fourth quarter results - Apple",
+  "publication_date_verified_in_source": "October 30, 2025",
+  "source_bytes": 140140,
+  "record": {
+    "event_id": "AAPL-2025Q4-release",
+    "ticker": "AAPL",
+    "kind": "earnings_release",
+    "source_url": "https://www.apple.com/newsroom/2025/10/apple-reports-fourth-quarter-results/",
+    "published": "2025-10-30",
+    "publication_zone": "America/New_York",
+    "publication_precision": "day",
+    "source_sha256": "662dd6be5f062577a699d42a611f88ae03f7ba287a4db63590f92b10d9f19db8",
+    "fields": {},
+    "observed_at": "2026-10-31T11:12:26.759075+00:00",
+    "available_at": "2026-10-31T11:12:26.759075+00:00",
+    "revision": 1,
+    "previous_record_sha256": "",
+    "record_sha256": "c46d3f98b07156531806e1e95f1ae3172467afe771e2d5340d566e0e06e36eb1"
+  },
+  "checks": {
+    "source_checksum": "verified",
+    "historical_cutoff": "2025-11-05T21:00:00Z",
+    "historical_visible_records": 0,
+    "collection_cutoff_visible_records": 1
+  },
+  "storage": "Full source bytes and ledger are local under ignored data/events; this record supplies reproducible provenance only."
+}

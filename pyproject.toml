@@ -21,6 +21,7 @@ dev = ["pytest>=8,<10", "ruff>=0.11,<1"]
 
 [project.scripts]
 stock-ensemble = "stock_ensemble.cli:main"
+stock-events = "stock_ensemble.events:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["stock_ensemble"]

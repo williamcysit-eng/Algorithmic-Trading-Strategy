@@ -8,7 +8,9 @@ The [experiment record](docs/research/nested_results.md) preserves all policy re
 
 ## Joint selection and information-data implementation
 
-The [selection protocol](docs/research/selection_protocol.md) freezes a new study of choosing five companies jointly from a fixed shortlist, keeping the current scores and equal weights. `config.selection.json` and `samples/selection.json` record the sector cap, score budget, covariance window, and acceptance rules before outcomes. An independent source-snapshot/event ledger will record publication and collection times without allowing newly captured announcements into historical decisions.
+The [selection protocol](docs/research/selection_protocol.md) freezes a new study of choosing five companies jointly from a fixed shortlist, keeping the current scores and equal weights. `config.selection.json` and `samples/selection.json` record the sector cap, score budget, covariance window, and acceptance rules before outcomes.
+
+The separate [public-event source ledger](docs/events.md) records original source bytes, publication precision, actual collection timestamps, and append-only corrections. `stock-events capture`, `import`, and `as-of` support auditable announcement collection. Newly captured historical releases cannot enter old decisions; these records do not automatically alter model features. Event snapshots live under ignored `data/events/`.
 
 ## Risk-allocation investigation
 
