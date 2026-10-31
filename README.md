@@ -8,7 +8,16 @@ The [experiment record](docs/research/nested_results.md) preserves all policy re
 
 ## Risk-allocation investigation
 
-A separate [risk study protocol](docs/research/risk_protocol.md) freezes a narrow comparison before its outcomes: keep the legacy top-five stock decisions fixed and compare equal, inverse-volatility, shrunk minimum-variance, and a 50/50 equal/minimum-variance allocation. `config.risk.json` and `samples/risk.json` record the settings. The study will report empirical return–risk preferences rather than claim a universally best portfolio. Only the predeclared balanced policy can qualify under the corrected utility test and risk/return safeguards; failed strategy integration will be reverted.
+A separate [risk study protocol](docs/research/risk_protocol.md) freezes a narrow comparison before its outcomes: keep the legacy top-five stock decisions fixed and compare equal, inverse-volatility, shrunk minimum-variance, and a 50/50 equal/minimum-variance allocation. `config.risk.json` and `samples/risk.json` record the settings. The study reports empirical return–risk preferences rather than claim a universally best portfolio. Only the predeclared balanced policy can qualify under the corrected utility test and risk/return safeguards; failed strategy integration will be reverted.
+
+The experimental command uses the same validated portfolio engine, preserves prior-only monthly ranking fits, estimates covariance through each signal close, and records all four policies. Run the sample for software verification before the full retrospective study:
+
+```sh
+uv run --frozen stock-ensemble --config samples/risk.json risk-study
+uv run --frozen stock-ensemble --config config.risk.json risk-study
+```
+
+Outputs include episode/annual metrics, daily fee sensitivities, fitted covariance and ranking vintages, stock weights, utility preferences, all corrected comparisons, adoption criteria, and standalone risk plots. A risk-study configuration is rejected by legacy `backtest`, `rank`, and `allocate` commands to prevent silently ignoring it.
 
 ## Archived research protocol
 
