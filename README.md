@@ -20,6 +20,8 @@ Regularized allocations maximize predicted return minus a squared-distance penal
 
 Primary uncertainty uses paired holding episodes, fold-stratified circular blocks equivalent to 20 sessions, 5,000 draws and Holm adjustment across six prespecified comparisons per horizon. Pointwise intervals are not simultaneous confidence bands. Ten- and 40-session block sensitivities are descriptive, not alternative significance thresholds. The bootstrap conditions on the observed folds and fitted procedure; it does not cover all researcher choices, vendor revisions or new market regimes.
 
+[`docs/research/implementation_protocol.md`](docs/research/implementation_protocol.md) fixes the execution, comparison, and rollback rules before the new implementation outcomes are run. Only a historically selected policy can qualify for adoption; losing variants will remain visible in Git history rather than be selected after seeing outer returns.
+
 `samples/research.json` is a separately labeled offline demonstration with shorter training/inner windows and ten stocks. Its outcomes are not full-study evidence. The final assignment outcomes remain prospective until their actual exit closes; the course report must be written by the students, not generated here.
 
 
