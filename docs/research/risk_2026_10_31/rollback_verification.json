@@ -1,0 +1,37 @@
+{
+  "experiment_revision": "9aa1256d9411d2bc888cfe5cdae13ce946d3bcc4",
+  "revert_revision": "7bed5a1",
+  "active_pytest": "29 passed; warnings treated as errors",
+  "active_ruff": "passed",
+  "checks": [
+    {
+      "check": "restored_numeric_artifacts",
+      "run": "full",
+      "count": 10,
+      "status": "passed"
+    },
+    {
+      "check": "restored_numeric_artifacts",
+      "run": "sample",
+      "count": 10,
+      "status": "passed"
+    },
+    {
+      "check": "active_source_and_tests_match_start",
+      "status": "passed",
+      "starting_revision": "3d1bae6"
+    },
+    {
+      "check": "active_settings_and_environment_unchanged",
+      "status": "passed"
+    },
+    {
+      "check": "evidence_and_snapshot_provenance_intact",
+      "status": "passed"
+    },
+    {
+      "check": "independent_audit_runs_without_experimental_modules",
+      "status": "passed"
+    }
+  ]
+}

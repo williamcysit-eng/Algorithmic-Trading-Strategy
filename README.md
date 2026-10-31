@@ -8,7 +8,11 @@ The [experiment record](docs/research/nested_results.md) preserves all policy re
 
 ## Risk-allocation investigation
 
-A separate [risk study protocol](docs/research/risk_protocol.md) freezes a narrow comparison before its outcomes: keep the legacy top-five stock decisions fixed and compare equal, inverse-volatility, shrunk minimum-variance, and a 50/50 equal/minimum-variance allocation. `config.risk.json` and `samples/risk.json` record the settings. The study will report empirical return–risk preferences rather than claim a universally best portfolio. Only the predeclared balanced policy can qualify under the corrected utility test and risk/return safeguards; failed strategy integration will be reverted.
+The [risk study protocol](docs/research/risk_protocol.md) fixed a narrow comparison before its outcomes: keep the legacy top-five stock decisions fixed and compare equal, inverse-volatility, shrunk minimum-variance, and a 50/50 equal/minimum-variance allocation. The completed [risk study findings](docs/research/risk_results.md) show lower observed volatility accompanied by lower mean returns. The predeclared balanced policy failed the corrected utility test at all three horizons, so the experimental integration was reverted.
+
+The study reports empirical preference curves rather than a universally best portfolio. Equal weights retained the highest mean and log utility among the four methods; moderate risk aversion favored inverse-volatility point estimates for daily/weekly horizons. None of the 45 secondary comparisons passed correction. [Figures and compact evidence](docs/research/risk_2026_10_31/) preserve the tradeoffs, failed tests, and independent covariance/share-accounting audit.
+
+`config.risk.json` and `samples/risk.json` remain archived settings. Reproduce the experimental command at revision `9aa1256`; the active CLI does not implement `risk-study`, and legacy commands do not activate the archived study.
 
 ## Archived research protocol
 
