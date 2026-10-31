@@ -1,0 +1,17 @@
+{
+  "status": "passed",
+  "source_commit": "9aa1256d9411d2bc888cfe5cdae13ce946d3bcc4",
+  "risk_windows": 2262,
+  "independent_allocation_solves": 4524,
+  "fit_boundaries": 321,
+  "episodes": 11024,
+  "daily_observations": 53112,
+  "archived_baseline_holdings": 13860,
+  "covariance_max_absolute_error": 4.336808689942018e-19,
+  "optimizer_max_objective_gap": 4.996003610813204e-16,
+  "episode_max_absolute_error": 7.598088824778415e-16,
+  "nav_max_relative_error": 7.194245199571014e-14,
+  "preference_checks": 120,
+  "comparison_checks": 51,
+  "primary_adoption_checks": 3
+}

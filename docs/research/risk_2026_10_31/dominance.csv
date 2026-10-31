@@ -1,0 +1,13 @@
+horizon,strategy,mean_volatility_dominated,dominated_by,interpretation
+1,balanced,False,,"observed only, among four fixed methods"
+1,equal,False,,"observed only, among four fixed methods"
+1,inverse_volatility,False,,"observed only, among four fixed methods"
+1,minimum_variance,False,,"observed only, among four fixed methods"
+5,balanced,False,,"observed only, among four fixed methods"
+5,equal,False,,"observed only, among four fixed methods"
+5,inverse_volatility,False,,"observed only, among four fixed methods"
+5,minimum_variance,False,,"observed only, among four fixed methods"
+19,balanced,True,inverse_volatility,"observed only, among four fixed methods"
+19,equal,False,,"observed only, among four fixed methods"
+19,inverse_volatility,False,,"observed only, among four fixed methods"
+19,minimum_variance,False,,"observed only, among four fixed methods"

@@ -1,0 +1,200 @@
+{
+  "git_commit": "9aa1256d9411d2bc888cfe5cdae13ce946d3bcc4",
+  "source_sha256": {
+    "__init__.py": "2e9c180fee878c95ef94976c513bec4c444d9c9a80cec9195d9eef1b90805f05",
+    "backtest.py": "64c4332d1f2754ab075e7f2743fa3e6463f358e16772251d0101d4d785914c4a",
+    "cli.py": "2e0c0e95a5fd782bcfaceabb9f30b3a60e8403f3d3bbebac78c6cdc333b9a245",
+    "data.py": "7fc38e74f3dda8fd7f761514583c088aab3d28ec4e69e78ff78594e8d9979c13",
+    "features.py": "896b745d011754b52ce8ccc8a9104e3f2dab09c9a97104a5d8bfb7653cd88f46",
+    "forecasting.py": "6637086d673dd33567b4ea554ec4f740f0c8793fd78dd8e5a5ac7e3b356da18f",
+    "model.py": "4434be363eecd58730678f3803ef899821d009401b6f0ebf6b15153b8c3b3cc8",
+    "portfolio.py": "141841f81b6cf4695f3a059ec5064ac3f49c21a74be62d9deacca9470604ebce",
+    "reporting.py": "7766464fe23d9b15183d591b2b21930953a1123801d92837d00bccfaffc35f38",
+    "risk.py": "c1605718421df8fe51b57fbade367421a2c225af261761d92d453c2c71d5b632",
+    "risk_inference.py": "6ed2f9ed4d5e47a7870cb192700b8b877de7662cd5190957b3fd1571346c7227",
+    "risk_reporting.py": "e2fd9f6bd8625e71426faed25cfadfa2a3e66b349375e5593a9325664bda4985",
+    "risk_study.py": "90178968bcb279d5775ae932c7f9baadb8223325235d0f4231fcc96e505cab78"
+  },
+  "protocol_sha256": "e74d6b78ed1b9bb9733c4edd56d609482fb8f087cf8b0acc965250a219aeb0a9",
+  "python": "3.12.14",
+  "dependencies": {
+    "numpy": "2.3.5",
+    "pandas": "2.3.3",
+    "scikit-learn": "1.9.1",
+    "matplotlib": "3.11.2"
+  },
+  "status": "exploratory_retrospective",
+  "covariance_units": "daily nominal split-aware simple price returns through signal close",
+  "horizon_risk": "daily covariance is a proxy; realized multi-session risk is measured separately",
+  "certainty_equivalent": "inverse CRRA of empirical mean utility, return per complete episode",
+  "primary_preference": "gamma=3 is an analysis convention, not an elicited user preference",
+  "inference": "paired, outer-year-stratified circular whole-episode blocks; conditional",
+  "limitations": [
+    "previously inspected history; retrospective exploratory evidence",
+    "survivor-selected stock universe; incomplete corporate-action ledger",
+    "empirical risk preference, not a forecast or guarantee",
+    "testing several preferences does not identify a universal optimum"
+  ],
+  "references": [
+    "https://doi.org/10.1016/S0047-259X(03)00096-4",
+    "https://doi.org/10.1093/rfs/hhm075"
+  ],
+  "config": {
+    "universe_path": "universe.csv",
+    "data_dir": "data/current",
+    "output_dir": "results/risk_study",
+    "data_start": "2010-01-01",
+    "data_end": "2026-10-22",
+    "features": {
+      "momentum_lookback": 252,
+      "momentum_skip": 21,
+      "volatility_window": 20,
+      "earnings_half_life": 45,
+      "earnings_max_age": 180,
+      "gate_half_life": 10,
+      "min_price": 5.0,
+      "min_dollar_volume": 10000000.0,
+      "min_cross_section": 10
+    },
+    "model": {
+      "train_window": 756,
+      "min_train_dates": 252,
+      "ridge": 0.05
+    },
+    "backtest": {
+      "start": "2018-01-01",
+      "holdout_start": "2023-01-01",
+      "horizons": [
+        1,
+        5,
+        19
+      ],
+      "top_n": 5,
+      "cost_bps": 0.0,
+      "return_mode": "price",
+      "initial_capital": 1000000.0
+    },
+    "risk_study": {
+      "status": "exploratory_retrospective",
+      "covariance_window": 252,
+      "min_weight": 0.05,
+      "max_weight": 0.4,
+      "primary_policy": "balanced",
+      "primary_gamma": 3.0,
+      "gammas": [
+        0.0,
+        1.0,
+        3.0,
+        5.0,
+        10.0
+      ],
+      "bootstrap_draws": 5000,
+      "bootstrap_block_sessions": 20,
+      "bootstrap_sensitivity_sessions": [
+        10,
+        40
+      ],
+      "seed": 7008,
+      "cost_scenarios_bps": [
+        0.0,
+        10.0
+      ],
+      "annualized_return_sacrifice_limit": 0.02
+    }
+  },
+  "config_sha256": "ada8dfcd2ddfd3d5eeffb51b2833ec1dd2bd68844793b0529021beced544b0b5",
+  "data_files": {
+    "prices.csv": {
+      "sha256": "781d0a93f6bc9f3d4b75bcb09012cd1a2c78c9729f03db6269d5e742dede2fae",
+      "rows": 126780
+    },
+    "earnings.csv": {
+      "sha256": "4edca57bae86e0a8b1b7425a4613e5fff3f76ea9fd46393d783c8ac25aebfb14",
+      "rows": 1824
+    },
+    "universe.csv": {
+      "sha256": "823d0709458a2b0479c020bd7dd4e6a4f8ea4b418f212bb36f6628b327ba7d9d",
+      "rows": 30
+    }
+  },
+  "data_manifest_sha256": "c0f15fce956528820bf0184f91cb87432075b1812ce2ff8bc025729e315508cf",
+  "data_coverage": {
+    "actual_price_start": "2010-01-04",
+    "actual_price_end": "2026-10-21",
+    "requested_start": "2010-01-01",
+    "requested_end_exclusive": "2026-10-22"
+  },
+  "run_status": {
+    "command": [
+      "uv",
+      "run",
+      "--frozen",
+      "stock-ensemble",
+      "--config",
+      "config.risk.json",
+      "risk-study",
+      "--output",
+      "results/risk_study"
+    ],
+    "returncode": 0,
+    "seconds": 55.57531162500004
+  },
+  "validation": {
+    "experimental_tests": "35 passed with warnings treated as errors",
+    "ruff": "passed",
+    "legacy_sample_numeric_artifacts_unchanged": 10,
+    "independent_audit": {
+      "status": "passed",
+      "source_commit": "9aa1256d9411d2bc888cfe5cdae13ce946d3bcc4",
+      "risk_windows": 2262,
+      "independent_allocation_solves": 4524,
+      "fit_boundaries": 321,
+      "episodes": 11024,
+      "daily_observations": 53112,
+      "archived_baseline_holdings": 13860,
+      "covariance_max_absolute_error": 4.336808689942018e-19,
+      "optimizer_max_objective_gap": 4.996003610813204e-16,
+      "episode_max_absolute_error": 7.598088824778415e-16,
+      "nav_max_relative_error": 7.194245199571014e-14,
+      "preference_checks": 120,
+      "comparison_checks": 51,
+      "primary_adoption_checks": 3
+    }
+  },
+  "generated_artifact_sha256": {
+    "adoption.csv": "a3551438a80a47279bbfdf55b6cfbaa5f5222bd296b92363dd2c35f4c91c245f",
+    "allocation_metrics.csv": "a0ab5cfa4a19ea6c64ddd5527d5beaabbc2d5ea1a24136910155f08a35a3fa3b",
+    "comparisons.csv": "93f5d70c89c348094eaa51e1ce99e00bcbeb3bdf6efbbc343932e47e532d124e",
+    "dominance.csv": "814e41a40067c3c8b6b32960243c8bcd66e34900b6194d626801f7f46304deb0",
+    "episode_metrics.csv": "cdb523f7823e1176c9388a9efe4fb935423f1d901996581ba43c609eea034048",
+    "episodes.csv": "9692e0fbbc456334dd8844ee15853d4b31af3837f83761978708cb927ba4c7cd",
+    "fits.csv": "c6e79a9adf75f3328dc777920a815d732eebe318a836db5880c14f0f9be59d25",
+    "fold_metrics.csv": "4d7eb7828c4b4c5aea5106a4e5809976ec625b05eda818e95bb2aebc04f267d6",
+    "holdings.csv.gz": "379de5d40c0dcada61f63342364a355e1b5436640927dfbb7d41fa95e2c48e3e",
+    "independent_audit.json": "04b1f8189bb80a0b344e8e0fc4a90eabf50633a6d9c75affed9d4b56a0ad2eee",
+    "path_metrics.csv": "b35456cb3e10765b579c95bb0b6981114eaed6746eb96d4b2aed54bf46e0aa6d",
+    "preferences.csv": "9e10623687832290e05c2bb12335ff55a48bfc1f69b09da522a9eac726c2155a",
+    "returns.csv": "68bd595a1db3a2aa88e0292cf09ae0100c7f01819ce6d849fb2d46dae99e54fd",
+    "risk_models.json": "ac3ef9a88a93318d656f0b2b8be7026ff244be15f4ed96de82e5ce81aece8878",
+    "risk_preferences.pdf": "02aee3f9246a159a3f7ff2aefcf3ac80bdf14ac045938dec2d2cb14ce0316e30",
+    "risk_preferences.png": "9b476729d740bde07171dfce35a28ed46bd54318d348df47086f6689a7beb12b",
+    "run_manifest.json": "9ae4797a381859ebb1f2ba83f0bd7790a95dbe23f39bfe2814c3159e6747662b",
+    "sensitivity.csv": "c94a1f43ebe6d91c97f6bb1ca08e30e39978a9ed3aa602c6a1f5fda09cbbc711"
+  },
+  "archived_evidence_sha256": {
+    "adoption.csv": "a3551438a80a47279bbfdf55b6cfbaa5f5222bd296b92363dd2c35f4c91c245f",
+    "allocation_summary.csv": "af510290a3d36bf56cba689212748dddef4147bd25166eb32455b3da1eb0f151",
+    "comparisons.csv": "93f5d70c89c348094eaa51e1ce99e00bcbeb3bdf6efbbc343932e47e532d124e",
+    "dominance.csv": "814e41a40067c3c8b6b32960243c8bcd66e34900b6194d626801f7f46304deb0",
+    "episode_metrics.csv": "cdb523f7823e1176c9388a9efe4fb935423f1d901996581ba43c609eea034048",
+    "fold_metrics.csv": "4d7eb7828c4b4c5aea5106a4e5809976ec625b05eda818e95bb2aebc04f267d6",
+    "independent_audit.json": "04b1f8189bb80a0b344e8e0fc4a90eabf50633a6d9c75affed9d4b56a0ad2eee",
+    "path_metrics.csv": "b35456cb3e10765b579c95bb0b6981114eaed6746eb96d4b2aed54bf46e0aa6d",
+    "preference_maximizers.csv": "d9123166f49dc8baec972fcb10daee1df7f1cb185ca436d10b717d8b2cc645d2",
+    "preferences.csv": "9e10623687832290e05c2bb12335ff55a48bfc1f69b09da522a9eac726c2155a",
+    "risk_preferences.pdf": "02aee3f9246a159a3f7ff2aefcf3ac80bdf14ac045938dec2d2cb14ce0316e30",
+    "risk_preferences.png": "9b476729d740bde07171dfce35a28ed46bd54318d348df47086f6689a7beb12b",
+    "sensitivity.csv": "c94a1f43ebe6d91c97f6bb1ca08e30e39978a9ed3aa602c6a1f5fda09cbbc711",
+    "tradeoff_summary.csv": "5e21c4a8c5b3c00b9f26f23a14806f050e78ecca2a7262a1668db6e3f7a1d99d"
+  }
+}
