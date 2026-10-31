@@ -8,7 +8,14 @@ The [experiment record](docs/research/nested_results.md) preserves all policy re
 
 ## Joint selection and information-data implementation
 
-The [selection protocol](docs/research/selection_protocol.md) freezes a new study of choosing five companies jointly from a fixed shortlist, keeping the current scores and equal weights. `config.selection.json` and `samples/selection.json` record the sector cap, score budget, covariance window, and acceptance rules before outcomes.
+The [selection protocol](docs/research/selection_protocol.md) freezes a new study of choosing five companies jointly from a fixed shortlist, keeping the current scores and equal weights. `config.selection.json` and `samples/selection.json` record the sector cap, score budget, covariance window, and acceptance rules before outcomes. The experimental `selection-study` command reports incumbent, sector-cap, variance-guarded, and joint selection on the same chronology:
+
+```sh
+uv run --frozen stock-ensemble --config samples/selection.json selection-study
+uv run --frozen stock-ensemble --config config.selection.json selection-study
+```
+
+Every selected stock gets equal weight; covariance affects membership only. Shortlists, subset objectives, cap relaxations, model/covariance vintages, paired episodes, costs, utility comparisons, and acceptance flags are saved. Study configurations are rejected by legacy trading commands to avoid silently ignoring selection settings.
 
 The separate [public-event source ledger](docs/events.md) records original source bytes, publication precision, actual collection timestamps, and append-only corrections. `stock-events capture`, `import`, and `as-of` support auditable announcement collection. Newly captured historical releases cannot enter old decisions; these records do not automatically alter model features. Event snapshots live under ignored `data/events/`.
 

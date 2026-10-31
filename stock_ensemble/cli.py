@@ -220,6 +220,8 @@ def main(argv=None) -> int:
     evaluate.add_argument("--cost-bps", type=float, help="One-way fee per traded dollar")
     evaluate.add_argument("--return-mode", choices=["price", "total"])
     evaluate.add_argument("--output", help="Override output directory")
+    selection = commands.add_parser("selection-study", help="Compare fixed portfolio-aware stock selectors")
+    selection.add_argument("--output", help="Override selection-study output")
     rank = commands.add_parser("rank", help="Rank stocks at a historical/latest signal close")
     rank.add_argument("--as-of", help="Exact signal session; defaults to latest downloaded close")
     rank.add_argument("--output", help="Override output directory")
@@ -235,6 +237,10 @@ def main(argv=None) -> int:
     args = parser.parse_args(argv)
     try:
         config = _config(args.config)
+        if "selection_study" in config and args.command not in ("selection-study", "download"):
+            raise ValueError("Selection-study configurations require the selection-study command")
+        if args.command == "selection-study" and "selection_study" not in config:
+            raise ValueError("The selection-study command requires its study configuration")
         if args.command == "download":
             manifest = download_dataset(
                 config["universe_path"],
@@ -258,7 +264,14 @@ def main(argv=None) -> int:
         features = build_features(prices, earnings, config)
         output = Path(config["output_dir"])
         output.mkdir(parents=True, exist_ok=True)
-        if args.command == "backtest":
+        if args.command == "selection-study":
+            from .selection_reporting import write_selection_results
+            from .selection_study import run_selection_study
+
+            result = run_selection_study(prices, features, universe, config,
+                                         progress=lambda value: print(value, flush=True))
+            write_selection_results(result, metadata, config)
+        elif args.command == "backtest":
             from .backtest import run_backtests
 
             result = run_backtests(prices, features, copy.deepcopy(config))
