@@ -1,0 +1,16 @@
+{
+  "status": "passed",
+  "source_commit": "a87b4537c0a64181efdb020289da6fd87984cfe5",
+  "risk_windows": 2277,
+  "exact_subset_choices": 11088,
+  "fit_boundaries": 321,
+  "archived_incumbent_holdings": 13860,
+  "episodes": 11024,
+  "daily_observations": 53112,
+  "covariance_max_absolute_error": 4.336808689942018e-19,
+  "episode_max_absolute_error": 6.175615574477433e-16,
+  "nav_max_relative_error": 2.4424906541753444e-14,
+  "preference_checks": 120,
+  "inference_checks": 51,
+  "adoption_checks": 3
+}

@@ -1,0 +1,192 @@
+{
+  "git_commit": "a87b4537c0a64181efdb020289da6fd87984cfe5",
+  "source_sha256": {
+    "__init__.py": "2e9c180fee878c95ef94976c513bec4c444d9c9a80cec9195d9eef1b90805f05",
+    "backtest.py": "64c4332d1f2754ab075e7f2743fa3e6463f358e16772251d0101d4d785914c4a",
+    "cli.py": "ccaa56f513c5ef93c9c32db9cbe3815bc778490755e1d3050b754a7c24bbb674",
+    "data.py": "7fc38e74f3dda8fd7f761514583c088aab3d28ec4e69e78ff78594e8d9979c13",
+    "events.py": "fbf8d7119e084eed54f8527210b7aad7c25b16d687256d2e17560589a1514215",
+    "features.py": "896b745d011754b52ce8ccc8a9104e3f2dab09c9a97104a5d8bfb7653cd88f46",
+    "forecasting.py": "6637086d673dd33567b4ea554ec4f740f0c8793fd78dd8e5a5ac7e3b356da18f",
+    "model.py": "4434be363eecd58730678f3803ef899821d009401b6f0ebf6b15153b8c3b3cc8",
+    "portfolio.py": "141841f81b6cf4695f3a059ec5064ac3f49c21a74be62d9deacca9470604ebce",
+    "reporting.py": "7766464fe23d9b15183d591b2b21930953a1123801d92837d00bccfaffc35f38",
+    "selection.py": "91dd2b30708cf4a2d9d1e54dde51847ceac0a834cf3d139846588e213ffcb15a",
+    "selection_inference.py": "45c51d2af2352c44d6ca6754fad6648dbcda545c7562bb79707143b75b6d654c",
+    "selection_reporting.py": "2476fb7d111c46788bc27e75ca8d1045110e6e690b418788aaf45aae69c4b00c",
+    "selection_study.py": "ac56f44636a7f6dd6fe4fb8604cb9de092f5f624c3379bc777e7e5192b7a761a"
+  },
+  "protocol_sha256": "8f2fc3e7df274db2540edd37eab49d6f14ec580e6404efb2874ec616e98ddfb4",
+  "python": "3.12.14",
+  "dependencies": {
+    "numpy": "2.3.5",
+    "pandas": "2.3.3",
+    "scikit-learn": "1.9.1"
+  },
+  "status": "exploratory_retrospective",
+  "sector_basis": "static labels from supplied universe; historical reclassification unavailable",
+  "objective_units": "ordinal score budget, nominal daily covariance; no score-as-return assumption",
+  "inference": "paired whole episodes; circular blocks stratified by outer year; conditional",
+  "information": "announcement ledger separate; no newly captured event enters historical models",
+  "limitations": [
+    "previously inspected survivor-selected universe",
+    "static sector labels",
+    "small fixed candidate set; no global optimum",
+    "no guarantee of future returns"
+  ],
+  "config": {
+    "universe_path": "universe.csv",
+    "data_dir": "data/current",
+    "output_dir": "results/selection_study",
+    "data_start": "2010-01-01",
+    "data_end": "2026-10-22",
+    "features": {
+      "momentum_lookback": 252,
+      "momentum_skip": 21,
+      "volatility_window": 20,
+      "earnings_half_life": 45,
+      "earnings_max_age": 180,
+      "gate_half_life": 10,
+      "min_price": 5.0,
+      "min_dollar_volume": 10000000.0,
+      "min_cross_section": 10
+    },
+    "model": {
+      "train_window": 756,
+      "min_train_dates": 252,
+      "ridge": 0.05
+    },
+    "backtest": {
+      "start": "2018-01-01",
+      "holdout_start": "2023-01-01",
+      "horizons": [
+        1,
+        5,
+        19
+      ],
+      "top_n": 5,
+      "cost_bps": 0.0,
+      "return_mode": "price",
+      "initial_capital": 1000000.0
+    },
+    "selection_study": {
+      "status": "exploratory_retrospective",
+      "shortlist_size": 10,
+      "sector_cap": 2,
+      "score_budget": 0.05,
+      "covariance_window": 252,
+      "primary_policy": "joint",
+      "primary_gamma": 3.0,
+      "gammas": [
+        0.0,
+        1.0,
+        3.0,
+        5.0,
+        10.0
+      ],
+      "bootstrap_draws": 5000,
+      "bootstrap_block_sessions": 20,
+      "bootstrap_sensitivity_sessions": [
+        10,
+        40
+      ],
+      "seed": 7008,
+      "cost_scenarios_bps": [
+        0.0,
+        10.0
+      ],
+      "annualized_return_sacrifice_limit": 0.02
+    }
+  },
+  "config_sha256": "ee6fa091264cd0f042b4f544d63966cdb346dca1e84f84ec49cde0fd1f7e22cc",
+  "data_files": {
+    "prices.csv": {
+      "sha256": "781d0a93f6bc9f3d4b75bcb09012cd1a2c78c9729f03db6269d5e742dede2fae",
+      "rows": 126780
+    },
+    "earnings.csv": {
+      "sha256": "4edca57bae86e0a8b1b7425a4613e5fff3f76ea9fd46393d783c8ac25aebfb14",
+      "rows": 1824
+    },
+    "universe.csv": {
+      "sha256": "823d0709458a2b0479c020bd7dd4e6a4f8ea4b418f212bb36f6628b327ba7d9d",
+      "rows": 30
+    }
+  },
+  "data_manifest_sha256": "c0f15fce956528820bf0184f91cb87432075b1812ce2ff8bc025729e315508cf",
+  "data_coverage": {
+    "actual_price_start": "2010-01-04",
+    "actual_price_end": "2026-10-21",
+    "requested_start": "2010-01-01",
+    "requested_end_exclusive": "2026-10-22"
+  },
+  "run_status": {
+    "command": [
+      "uv",
+      "run",
+      "--frozen",
+      "stock-ensemble",
+      "--config",
+      "config.selection.json",
+      "selection-study",
+      "--output",
+      "results/selection_study"
+    ],
+    "returncode": 0,
+    "seconds": 75.87745520799945
+  },
+  "validation": {
+    "experimental_tests": "40 passed with warnings treated as errors",
+    "ruff": "passed",
+    "legacy_sample_numeric_artifacts_unchanged": 10,
+    "independent_audit": {
+      "status": "passed",
+      "source_commit": "a87b4537c0a64181efdb020289da6fd87984cfe5",
+      "risk_windows": 2277,
+      "exact_subset_choices": 11088,
+      "fit_boundaries": 321,
+      "archived_incumbent_holdings": 13860,
+      "episodes": 11024,
+      "daily_observations": 53112,
+      "covariance_max_absolute_error": 4.336808689942018e-19,
+      "episode_max_absolute_error": 6.175615574477433e-16,
+      "nav_max_relative_error": 2.4424906541753444e-14,
+      "preference_checks": 120,
+      "inference_checks": 51,
+      "adoption_checks": 3
+    }
+  },
+  "generated_artifact_sha256": {
+    "adoption.csv": "e4d379990c6c13248385c392f1f88938d0a4864a5ee47f53b16701c6e0b3f960",
+    "comparisons.csv": "5de68eb2e4012f752a1f060b72f0ae35c95ddc6a528cd73f8db2dfcf8e5f7096",
+    "episode_metrics.csv": "6e1330defccb4a4f51270123c90a8d4ece7f969ac8b6326ed9d0abe745324b74",
+    "episodes.csv": "9dece84cd02974f86f4f2612fffdc4cd326dc1ab018a667edec307cd7e971a91",
+    "fits.csv": "c6e79a9adf75f3328dc777920a815d732eebe318a836db5880c14f0f9be59d25",
+    "fold_metrics.csv": "e64f3ff2860ba62d256a6a1147f25167b93e92efc9b2830705b3d7251c1fe352",
+    "holdings.csv.gz": "627e515de8cdccef8655dee501d907428249652a2b3abeced700e0de4340bc4c",
+    "independent_audit.json": "9faa85695123c774dfff21bac88202c243a388b1acc3516862ed14f557de1cc2",
+    "path_metrics.csv": "aba1ec2c7841004e67c08b1e1f9684085144a4657fe6897d45207dcf11c9da7a",
+    "preferences.csv": "dc7117b1a6777293f403013739fc02513d738b84acdc837444279581b1aadf45",
+    "returns.csv": "beb6ea5d15f516712049d5465fca9cef7903bd5fa30fdd0b41cd9243795a3642",
+    "risk_models.json": "d377f68a7b0cd4c556ce9dc7a4ce351b6a8c72d61c2f009cddd7e431ff2eb685",
+    "run_manifest.json": "9b102a6c3bf6d9b28fb2dd6f4977cf9ab821bf727c9d0d66670414fefef08e96",
+    "selection_diagnostics.csv": "8491d7baf4e0ea055495ab8f0ad004c313b379bcc306ebcbf96cd413709bdfff",
+    "selection_summary.csv": "52a661cd4b6e70dcd576fe6a074d4426316919d27d146d6b7a3e197cccb424af",
+    "sensitivity.csv": "c960e8787f3309519b3e96e1e117871e6d32f7d3984707ad5aaa8eef9a28a0eb",
+    "shortlists.csv.gz": "cf7a8ca44e9ed462645b503ed988e37d01e25683d6b63da3e704d71eac599a84"
+  },
+  "archived_evidence_sha256": {
+    "adoption.csv": "e4d379990c6c13248385c392f1f88938d0a4864a5ee47f53b16701c6e0b3f960",
+    "comparisons.csv": "5de68eb2e4012f752a1f060b72f0ae35c95ddc6a528cd73f8db2dfcf8e5f7096",
+    "episode_metrics.csv": "6e1330defccb4a4f51270123c90a8d4ece7f969ac8b6326ed9d0abe745324b74",
+    "fold_metrics.csv": "e64f3ff2860ba62d256a6a1147f25167b93e92efc9b2830705b3d7251c1fe352",
+    "independent_audit.json": "9faa85695123c774dfff21bac88202c243a388b1acc3516862ed14f557de1cc2",
+    "path_metrics.csv": "aba1ec2c7841004e67c08b1e1f9684085144a4657fe6897d45207dcf11c9da7a",
+    "preferences.csv": "dc7117b1a6777293f403013739fc02513d738b84acdc837444279581b1aadf45",
+    "selection_summary.csv": "52a661cd4b6e70dcd576fe6a074d4426316919d27d146d6b7a3e197cccb424af",
+    "sensitivity.csv": "c960e8787f3309519b3e96e1e117871e6d32f7d3984707ad5aaa8eef9a28a0eb",
+    "tradeoff_summary.csv": "51fadc253180d7e1a616bc576874780e6ce16a99daf14a239592556ffcb8fa89",
+    "selection_tradeoffs.png": "440a8acb2f16f28b63421e0d67e90ca2141c9fe4d5031eeae348c57229909560",
+    "selection_tradeoffs.pdf": "3c16adbd8281509ac41198f638f8b711e085d61a5fc29a628973cbe4afe793de"
+  }
+}
