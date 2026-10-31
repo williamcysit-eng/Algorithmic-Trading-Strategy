@@ -6,6 +6,10 @@ The nested forecasting experiment was implemented, tested, and **rejected** unde
 
 The [experiment record](docs/research/nested_results.md) preserves all policy results, failure reasons, data/source hashes, and the independent audit. The tested implementation remains recoverable at revision `f9effe3`. On the active revision, `config.research.json` and `samples/research.json` are archived protocol configurations; the CLI does not implement the nested research command. Passing them to a legacy command does not activate the archived study.
 
+## Joint selection and information-data implementation
+
+The [selection protocol](docs/research/selection_protocol.md) freezes a new study of choosing five companies jointly from a fixed shortlist, keeping the current scores and equal weights. `config.selection.json` and `samples/selection.json` record the sector cap, score budget, covariance window, and acceptance rules before outcomes. An independent source-snapshot/event ledger will record publication and collection times without allowing newly captured announcements into historical decisions.
+
 ## Risk-allocation investigation
 
 The [risk study protocol](docs/research/risk_protocol.md) fixed a narrow comparison before its outcomes: keep the legacy top-five stock decisions fixed and compare equal, inverse-volatility, shrunk minimum-variance, and a 50/50 equal/minimum-variance allocation. The completed [risk study findings](docs/research/risk_results.md) show lower observed volatility accompanied by lower mean returns. The predeclared balanced policy failed the corrected utility test at all three horizons, so the experimental integration was reverted.
