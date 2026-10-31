@@ -10,8 +10,8 @@ initial-capital dollars. Sharpe ratios use daily returns and zero risk-free rate
 import numpy as np
 import pandas as pd
 
-from .model import SIGNALS, fit_weights
 from . import portfolio
+from .model import SIGNALS, fit_weights
 
 STRATEGIES = ("ensemble", "equal_signal", "ungated", "earnings", "momentum", "reversal", "universe")
 RAW_SIGNALS = ("earnings", "momentum", "reversal_raw")

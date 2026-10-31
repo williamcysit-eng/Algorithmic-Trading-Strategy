@@ -1,6 +1,12 @@
 # Horizon-specific stock selection and allocation research
 
-## Research protocol
+## Current status
+
+The nested forecasting experiment was implemented, tested, and **rejected** under the comparison and rollback rules committed before its outcomes. Its weekly and monthly mean returns increased slightly, but none of the three horizons passed the corrected return test, and every horizon had worse observed fifth-percentile losses. The experimental integration was reverted; the legacy strategy remains active.
+
+The [experiment record](docs/research/nested_results.md) preserves all policy results, failure reasons, data/source hashes, and the independent audit. The tested implementation remains recoverable at revision `f9effe3`. On the active revision, `config.research.json` and `samples/research.json` are archived protocol configurations; the CLI does not implement the nested research command. Passing them to a legacy command does not activate the archived study.
+
+## Archived research protocol
 
 The new study is **exploratory retrospective research**, not a fresh confirmatory holdout. The legacy 2023–2025 results and the extension through 2026-10-21 were inspected before this design. `config.research.json` freezes the candidate grid and analysis settings in version control before the new-model outcomes are run; this is a local protocol freeze, **not independent preregistration**. Do not tune this protocol after seeing its outer results and then claim an untouched test.
 
@@ -18,11 +24,11 @@ Each outer calendar year freezes its choices using three preceding 126-session i
 
 Regularized allocations maximize predicted return minus a squared-distance penalty toward equal weights, subject to 5%–40% per selected stock and weights summing to one. These bounds are declared robustness choices, not assignment requirements or empirically optimal values. They sacrifice some estimated return to limit concentration driven by forecast error.
 
-Primary uncertainty uses paired holding episodes, fold-stratified circular blocks equivalent to 20 sessions, 5,000 draws and Holm adjustment across six prespecified comparisons per horizon. Pointwise intervals are not simultaneous confidence bands. Ten- and 40-session block sensitivities are descriptive, not alternative significance thresholds. The bootstrap conditions on the observed folds and fitted procedure; it does not cover all researcher choices, vendor revisions or new market regimes.
+Primary uncertainty uses paired holding episodes, fold-stratified circular blocks rounded up to complete episodes from a requested 20 sessions, 5,000 draws and Holm adjustment across six prespecified comparisons per horizon. At 19 sessions this rounds to two episodes, or 38 sessions. The separate adoption test corrects nested-versus-incumbent comparisons across the three horizons and also checks observed loss frequency and fifth-percentile returns. Pointwise intervals are not simultaneous confidence bands. Ten- and 40-session block sensitivities are descriptive, not alternative significance thresholds. The bootstrap conditions on the observed folds and fitted procedure; it does not cover all researcher choices, vendor revisions or new market regimes.
 
 [`docs/research/implementation_protocol.md`](docs/research/implementation_protocol.md) fixes the execution, comparison, and rollback rules before the new implementation outcomes are run. Only a historically selected policy can qualify for adoption; losing variants will remain visible in Git history rather than be selected after seeing outer returns.
 
-`samples/research.json` is a separately labeled offline demonstration with shorter training/inner windows and ten stocks. Its outcomes are not full-study evidence. The final assignment outcomes remain prospective until their actual exit closes; the course report must be written by the students, not generated here.
+`samples/research.json` specifies the archived offline demonstration with shorter training/inner windows and ten stocks, executable at the experimental revision. Its outcomes validate software rather than full-study performance. Use `samples/config.json` for the active offline demonstration. The final assignment outcomes remain prospective until their actual exit closes; the course report must be written by the students, not generated here.
 
 
 ## Legacy baseline: run

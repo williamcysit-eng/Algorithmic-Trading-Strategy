@@ -1,0 +1,33 @@
+{
+  "experiment_revision": "f9effe3c46131484de9b3136d5e206fa699086ba",
+  "revert_revision": "72f6806",
+  "active_pytest": "29 passed",
+  "active_ruff": "passed",
+  "checks": [
+    {
+      "check": "restored_numeric_artifacts",
+      "run": "full",
+      "count": 10,
+      "status": "passed"
+    },
+    {
+      "check": "restored_numeric_artifacts",
+      "run": "sample",
+      "count": 10,
+      "status": "passed"
+    },
+    {
+      "check": "active_source_matches_original",
+      "status": "passed",
+      "exceptions": "Two import-formatting corrections only"
+    },
+    {
+      "check": "configuration_and_environment_preserved",
+      "status": "passed"
+    },
+    {
+      "check": "experiment_evidence_and_data_provenance_intact",
+      "status": "passed"
+    }
+  ]
+}

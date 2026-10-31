@@ -48,6 +48,8 @@ A future study should freeze a new protocol before outcomes, evaluate simpler or
 
 The experimental revision passed all 33 tests and Ruff. Four new integration cases exercise nested choices, training maturity, future-data invariance, same-stock allocation ablations, fees, episode reconciliation, configuration dispatch, paired bootstrap behavior, and the rejection rule. The original offline sample's ten numeric artifacts remained unchanged. The research sample ran separately and supplied software evidence only.
 
+Rollback commit `72f6806` removed the experimental strategy, inference, and CLI integration. The restored active code passed all 29 legacy tests and Ruff. Full and sample backtests reproduced all twenty corresponding numeric artifacts. Active source matches the starting revision except for two import-formatting corrections; configurations and the lockfile are unchanged. These checks are recorded in `nested_2026_10_31/rollback_verification.json`.
+
 An independent audit reconstructed 24,804 complete episode returns from nominal closes and splits, then replayed 119,502 daily portfolio observations with explicit shares and an independent SciPy root solver for fee funding. Maximum episode absolute difference was 7.08e-16; maximum relative NAV difference was 8.22e-14. It checked 3,166 fitted-model boundaries, all 27 annual choices, and 214 saved incumbent vintages. It independently reproduced all 54 bootstrap comparisons and three adoption checks.
 
 Compact evidence is versioned under [`nested_2026_10_31/`](nested_2026_10_31/):
@@ -57,7 +59,7 @@ Compact evidence is versioned under [`nested_2026_10_31/`](nested_2026_10_31/):
 - `forecast_metrics.csv`, `forecast_summary.csv`: forecast error against a training-only mean and rank association.
 - `selection_scores.csv`, `selections.json`: earlier objectives and frozen annual decisions.
 - `path_metrics.csv`: zero-cost and 10-bps path statistics, labeled separately.
-- `provenance.json`, `independent_audit.json`: exact source/config/data hashes, dependency versions, and numerical audit counts.
+- `provenance.json`, `independent_audit.json`, `rollback_verification.json`: exact source/config/data hashes, numerical audit counts, and confirmation that the original strategy was restored.
 
 The larger daily returns, holdings, forecasts, fitted metadata, and downloaded datasets remain ignored under `results/nested_full/` and `data/current/`. The independent audit script is [`audit_nested.py`](audit_nested.py); run it from the repository root against the full local output directory:
 

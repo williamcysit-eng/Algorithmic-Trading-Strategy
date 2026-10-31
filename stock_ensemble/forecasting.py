@@ -14,7 +14,6 @@ from threadpoolctl import threadpool_limits
 
 from .model import SIGNALS, fit_weights
 
-
 FEATURE_NAMES = (
     "earnings",
     "momentum_value",
