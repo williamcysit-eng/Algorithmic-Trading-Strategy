@@ -1,0 +1,45 @@
+{
+  "protocol_revision": "a955a93",
+  "retained_event_revision": "637db04",
+  "experimental_selection_revision": "a87b4537c0a64181efdb020289da6fd87984cfe5",
+  "revert_revision": "38bfab1",
+  "active_pytest": "35 passed with warnings treated as errors",
+  "active_ruff": "passed",
+  "checks": [
+    {
+      "check": "restored_numeric_artifacts",
+      "run": "full",
+      "count": 10,
+      "status": "passed"
+    },
+    {
+      "check": "restored_numeric_artifacts",
+      "run": "sample",
+      "count": 10,
+      "status": "passed"
+    },
+    {
+      "check": "trading_source_matches_start",
+      "status": "passed",
+      "starting_revision": "2ab58b9",
+      "new_module": "events.py is separate and not imported by trading pipeline"
+    },
+    {
+      "check": "active_trading_configuration_and_lockfile_unchanged",
+      "status": "passed"
+    },
+    {
+      "check": "real_event_source_integrity_and_no_backdating",
+      "status": "passed",
+      "source_sha256": "662dd6be5f062577a699d42a611f88ae03f7ba287a4db63590f92b10d9f19db8"
+    },
+    {
+      "check": "experiment_evidence_and_snapshot_provenance_intact",
+      "status": "passed"
+    },
+    {
+      "check": "independent_audit_without_rejected_modules",
+      "status": "passed"
+    }
+  ]
+}
