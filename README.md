@@ -22,15 +22,6 @@ Primary uncertainty uses paired holding episodes, fold-stratified circular block
 
 [`docs/research/implementation_protocol.md`](docs/research/implementation_protocol.md) fixes the execution, comparison, and rollback rules before the new implementation outcomes are run. Only a historically selected policy can qualify for adoption; losing variants will remain visible in Git history rather than be selected after seeing outer returns.
 
-The experimental `research` command connects the return forecasters, nested annual selection, bounded allocations, and shared portfolio accounting. Run it explicitly; `backtest` rejects research configurations to prevent silently ignoring the protocol:
-
-```sh
-uv run --frozen stock-ensemble --config samples/research.json research
-uv run --frozen stock-ensemble --config config.research.json research
-```
-
-It writes paired complete episodes, all nine strategy series (eight research series and the matched legacy incumbent), inner selection scores, monthly model vintages, stock weights, nominal forecasts, annual choices, cost sensitivities, corrected comparisons, and the prespecified adoption decision. Annual rebalance phases restart together; incomplete final episodes remain in daily path accounting but not the primary mean. Bootstrap block lengths round up to complete episodes. The research reporter uses its own inference path rather than the legacy daily-return bootstrap.
-
 `samples/research.json` is a separately labeled offline demonstration with shorter training/inner windows and ten stocks. Its outcomes are not full-study evidence. The final assignment outcomes remain prospective until their actual exit closes; the course report must be written by the students, not generated here.
 
 

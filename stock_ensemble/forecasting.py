@@ -14,6 +14,7 @@ from threadpoolctl import threadpool_limits
 
 from .model import SIGNALS, fit_weights
 
+
 FEATURE_NAMES = (
     "earnings",
     "momentum_value",
@@ -182,16 +183,7 @@ def fit_candidate(candidate: Candidate, training: pd.DataFrame, config: dict) ->
             metadata["feature_names"] = list(FEATURE_NAMES)
             if candidate.family == "ridge":
                 alpha = _finite_number(candidate.parameters["alpha"], "ridge alpha", positive=True)
-                # Weighted constant columns can acquire tiny negative variances
-                # from roundoff. Normalize only that numerical boundary to zero.
-                with np.errstate(invalid="ignore"):
-                    scaler = StandardScaler().fit(x, sample_weight=weights)
-                tolerance = np.finfo(float).eps * np.maximum(1.0, scaler.mean_ ** 2)
-                if (scaler.var_ < -tolerance).any():
-                    raise ValueError("Training scaler has a materially negative variance")
-                negative = scaler.var_ < 0
-                scaler.var_[negative] = 0.0
-                scaler.scale_[negative] = 1.0
+                scaler = StandardScaler().fit(x, sample_weight=weights)
                 model = Ridge(alpha=alpha, solver="cholesky").fit(
                     scaler.transform(x), y, sample_weight=weights
                 )
