@@ -7,113 +7,14 @@ Costs and turnover are fractions of NAV before that day's price mark. NAV is in
 initial-capital dollars. Sharpe ratios use daily returns and zero risk-free rate.
 """
 
-from dataclasses import dataclass
-
 import numpy as np
 import pandas as pd
 
 from .model import SIGNALS, fit_weights
+from . import portfolio
 
 STRATEGIES = ("ensemble", "equal_signal", "ungated", "earnings", "momentum", "reversal", "universe")
 RAW_SIGNALS = ("earnings", "momentum", "reversal_raw")
-
-
-@dataclass
-class _Market:
-    """Session-aligned prices and gross growth factors, plus signal-time features."""
-
-    sessions: pd.DatetimeIndex
-    prices: pd.DataFrame
-    factors: pd.DataFrame
-    features: pd.DataFrame
-
-
-def _date(value):
-    result = pd.Timestamp(value)
-    if result.tzinfo is not None:
-        result = result.tz_localize(None)
-    return result.normalize()
-
-
-def _prepare(prices, features, config):
-    mode = config["backtest"].get("return_mode", "price")
-    if mode not in ("price", "total"):
-        raise ValueError("return_mode must be 'price' or 'total'")
-    prices = prices.copy()
-    features = features.copy()
-    for name, frame in (("prices", prices), ("features", features)):
-        frame["date"] = pd.to_datetime(frame["date"]).dt.tz_localize(None).dt.normalize()
-        if frame[["date", "ticker"]].isna().any().any():
-            raise ValueError(f"Missing date or ticker in {name}")
-        if frame.duplicated(["date", "ticker"]).any():
-            raise ValueError(f"Duplicate ticker/date in {name}")
-    close_column = "close" if mode == "price" else "adj_close"
-    closes = prices.pivot(index="date", columns="ticker", values=close_column).sort_index()
-    if closes.empty or len(closes) < 2:
-        raise ValueError("At least two price sessions are required")
-    bad = closes.notna() & ((closes <= 0) | ~np.isfinite(closes))
-    if bad.any().any():
-        raise ValueError("Prices must be positive and finite where provided")
-    # Each factor marks existing dollar holdings from the prior close to this close.
-    factors = closes / closes.shift(1)
-    if mode == "price":
-        splits = prices.pivot(index="date", columns="ticker", values="split").reindex_like(closes)
-        if (closes.notna() & (splits.isna() | (splits <= 0) | ~np.isfinite(splits))).any().any():
-            raise ValueError("Every observed nominal close requires a positive finite split ratio")
-        # A split changes shares held, offsetting the nominal-price discontinuity.
-        factors *= splits
-    required = ["eligible", *SIGNALS, "reversal_raw"]
-    missing = set(required).difference(features.columns)
-    if missing:
-        raise ValueError(f"Missing feature columns: {sorted(missing)}")
-    if not features["date"].isin(closes.index).all():
-        raise ValueError("Feature dates must be exact price sessions")
-    if not features["ticker"].isin(closes.columns).all():
-        raise ValueError("Feature tickers must exist in prices")
-    features = features.sort_values(["date", "ticker"]).reset_index(drop=True)
-    return _Market(closes.index, closes, factors, features)
-
-
-def _labels(market, horizon):
-    # For signal i: enter i+1, exit i+1+h. Multiplication propagates any missing
-    # intermediate mark; an unavailable label never removes a prediction row.
-    forward = pd.DataFrame(1.0, index=market.sessions, columns=market.prices.columns)
-    for step in range(1, horizon + 1):
-        forward *= market.factors.shift(-(step + 1))
-    forward -= 1.0
-    forward.index.name = "date"
-    forward.columns.name = "ticker"
-    target = forward.stack().rename("forward_return").reset_index()
-    frame = market.features.loc[
-        market.features["eligible"].fillna(False).astype(bool),
-        ["date", "ticker", *SIGNALS, "reversal_raw"],
-    ]
-    frame = frame.merge(target, on=["date", "ticker"], how="inner", validate="one_to_one")
-    frame = frame.loc[np.isfinite(frame["forward_return"])].copy()
-    count = frame.groupby("date")["forward_return"].transform("size")
-    rank = frame.groupby("date")["forward_return"].rank(method="average")
-    frame["target"] = np.where(count > 1, 2.0 * (rank - 1.0) / (count - 1.0) - 1.0, 0.0)
-    label_ends = pd.Series(market.sessions, index=market.sessions).shift(-(horizon + 1))
-    frame["label_end"] = frame["date"].map(label_ends)
-    return frame
-
-
-def _first_signal(market, config):
-    start = _date(config["backtest"]["start"])
-    entry_index = int(market.sessions.searchsorted(start))
-    if entry_index >= len(market.sessions):
-        raise ValueError("Evaluation start is after the last price session")
-    if entry_index == 0:
-        raise ValueError("Evaluation requires a prior signal session and historical training")
-    return market.sessions[entry_index - 1]
-
-
-def _refit_dates(market, first_signal, last_signal):
-    dates = market.sessions[(market.sessions >= first_signal) & (market.sessions <= last_signal)]
-    # This tests against the full calendar, not just rebalance/entry sessions.
-    months = market.sessions.to_period("M")
-    month_first = market.sessions[np.r_[True, months[1:] != months[:-1]]]
-    return dates[(dates == first_signal) | dates.isin(month_first)]
 
 
 def _fit(labels, market, refit_date, horizon, strategy, config):
@@ -159,22 +60,6 @@ def _fit(labels, market, refit_date, horizon, strategy, config):
     return weights, metadata
 
 
-def _eligible(market, signal_date, top_n):
-    frame = market.features.loc[
-        (market.features["date"] == signal_date)
-        & market.features["eligible"].fillna(False).astype(bool)
-    ].copy()
-    if len(frame) < top_n:
-        raise ValueError(
-            f"Only {len(frame)} eligible stocks on {signal_date.date()}; require {top_n}"
-        )
-    finite = np.isfinite(frame.loc[:, [*SIGNALS, "reversal_raw"]].to_numpy(dtype=float)).all(axis=1)
-    if not finite.all():
-        bad = frame.loc[~finite, "ticker"].tolist()
-        raise ValueError(f"Nonfinite eligible signals on {signal_date.date()}: {bad}")
-    return frame
-
-
 def _ranking(frame, strategy, fitted):
     if strategy == "ensemble":
         values = frame.loc[:, list(SIGNALS)].to_numpy(dtype=float) @ fitted["ensemble"]
@@ -194,106 +79,9 @@ def _ranking(frame, strategy, fitted):
     return result.reset_index(drop=True)
 
 
-def _settings(config):
-    backtest = config["backtest"]
-    top_n = int(backtest.get("top_n", 5))
-    if not 1 <= top_n <= 5:
-        raise ValueError("Stock portfolios must contain one to five companies")
-    capital = float(backtest.get("initial_capital", 1_000_000.0))
-    fee = float(backtest.get("cost_bps", 0.0)) / 10_000.0
-    if not np.isfinite(capital) or capital <= 0:
-        raise ValueError("initial_capital must be positive and finite")
-    if not np.isfinite(fee) or not 0 <= fee < 1:
-        raise ValueError("cost_bps must be finite and in [0, 10000)")
-    return top_n, capital, fee
-
-
-def _self_financing(pretrade, target, wealth, fee):
-    """Return post-fee dollar holdings, fee dollars and traded dollars.
-
-    Post-fee invested wealth A must satisfy:
-    A + fee * sum(abs(A * target - pretrade)) = wealth.
-    Fees reduce the investment budget instead of creating borrowing.
-    """
-    if fee == 0:
-        after = wealth
-    else:
-        low, high = 0.0, wealth
-        # With fee < 1, the residual strictly increases with post-fee wealth.
-        for _ in range(64):
-            mid = (low + high) / 2.0
-            residual = mid + fee * np.abs(mid * target - pretrade).sum() - wealth
-            if residual > 0:
-                high = mid
-            else:
-                low = mid
-        after = (low + high) / 2.0
-    holdings = after * target
-    traded = float(np.abs(holdings - pretrade).sum())
-    return holdings, fee * traded, traded
-
-
-def _check_prices(market, date, selected):
-    observed = market.prices.loc[date, selected]
-    missing = observed.index[observed.isna() | ~np.isfinite(observed) | (observed <= 0)]
-    if len(missing):
-        raise ValueError(f"Missing trade price on {date.date()} for {', '.join(missing)}")
-
-
-def _simulate(market, dates, horizon, strategy, decisions, capital, fee):
-    """Track dollar holdings, daily marks and self-financing trades at each close."""
-    tickers = market.prices.columns
-    positions = np.zeros(len(tickers))
-    cash = capital
-    nav = capital
-    rows = []
-    for date in dates:
-        previous_nav = nav
-        held = positions > 0
-        # Only positions held before today's close earn today's price movement.
-        if held.any():
-            factors = market.factors.loc[date].to_numpy(dtype=float)
-            bad = held & (~np.isfinite(factors) | (factors <= 0))
-            if bad.any():
-                names = ", ".join(tickers[bad])
-                raise ValueError(f"Missing held price/return on {date.date()} for {names}")
-            positions[held] *= factors[held]
-        marked = float(positions.sum() + cash)
-        gross_return = marked / previous_nav - 1.0
-        fee_dollars = traded = 0.0
-        # Terminal liquidation takes precedence over a scheduled rebalance.
-        if date == dates[-1]:
-            traded = float(positions.sum())
-            fee_dollars = fee * traded
-            positions.fill(0.0)
-            cash = marked - fee_dollars
-        elif date in decisions:
-            selection = decisions[date]
-            _check_prices(market, date, selection["ticker"])
-            target = np.zeros(len(tickers))
-            target[tickers.get_indexer(selection["ticker"])] = 1.0 / len(selection)
-            positions, fee_dollars, traded = _self_financing(positions, target, marked, fee)
-            cash = 0.0
-        nav = float(positions.sum() + cash)
-        # Costs and turnover use prior NAV, matching both return denominators.
-        rows.append(
-            {
-                "date": date,
-                "horizon": horizon,
-                "strategy": strategy,
-                "return": nav / previous_nav - 1.0,
-                "gross_return": gross_return,
-                "cost": fee_dollars / previous_nav,
-                "turnover": traded / previous_nav,
-                "nav": nav,
-            }
-        )
-    return rows
-
-
 def summarize_returns(returns: pd.DataFrame, holdout_start: str) -> pd.DataFrame:
     """Summarize chronological daily returns; Sharpe uses a zero risk-free rate."""
-    holdout = _date(holdout_start)
+    holdout = portfolio.normalize_date(holdout_start)
     rows = []
     for (horizon, strategy), series in returns.groupby(["horizon", "strategy"], sort=False):
         series = series.sort_values("date", kind="stable")
@@ -350,8 +138,8 @@ def run_backtests(prices, features, config):
     liquidates at the last close rather than discarding an unfinished interval.
     The universe strategy alone is exempt from the five-stock constraint.
     """
-    market = _prepare(prices, features, config)
-    top_n, capital, fee = _settings(config)
+    market = portfolio.prepare_market(prices, features, config)
+    top_n, capital, fee = portfolio.portfolio_settings(config)
     horizons = config["backtest"].get("horizons", [1, 5, 20])
     if (
         not horizons
@@ -359,19 +147,19 @@ def run_backtests(prices, features, config):
         or len(set(horizons)) != len(horizons)
     ):
         raise ValueError("horizons must be distinct positive integers")
-    first_signal = _first_signal(market, config)
+    first_signal = portfolio.first_signal(market, config)
     first_entry_index = int(market.sessions.get_loc(first_signal)) + 1
-    end = _date(config["backtest"].get("end", market.sessions[-1]))
+    end = portfolio.normalize_date(config["backtest"].get("end", market.sessions[-1]))
     dates = market.sessions[first_entry_index:]
     dates = dates[dates <= end]
     if len(dates) < 2:
         raise ValueError("Evaluation needs at least two sessions for entry and liquidation")
     last_signal = market.sessions[market.sessions.get_loc(dates[-1]) - 1]
-    refits = _refit_dates(market, first_signal, last_signal)
+    refits = portfolio.refit_dates(market, first_signal, last_signal)
     return_rows, holding_frames, weight_rows, score_frames = [], [], [], []
     for horizon_value in horizons:
         horizon = int(horizon_value)
-        labels = _labels(market, horizon)
+        labels = portfolio.forward_labels(market, horizon)
         fitted_by_date = {}
         for refit_date in refits:
             fitted = {}
@@ -389,14 +177,15 @@ def run_backtests(prices, features, config):
             # Use the refit known at signal close, not at the later execution close.
             refit_date = refits[refits.searchsorted(signal_date, side="right") - 1]
             fitted = fitted_by_date[refit_date]
-            frame = _eligible(market, signal_date, top_n)
+            frame = portfolio.eligible_as_of(market, signal_date, top_n)
             for strategy in STRATEGIES:
                 ranking = _ranking(frame, strategy, fitted)
                 columns = ["date", "ticker", "score", *SIGNALS, "reversal_raw"]
                 scored = ranking.loc[:, columns].copy()
                 scored["horizon"], scored["strategy"] = horizon, strategy
                 score_frames.append(scored)
-                selected = ranking if strategy == "universe" else ranking.iloc[:top_n]
+                selected = (ranking if strategy == "universe" else ranking.iloc[:top_n]).copy()
+                selected["target_weight"] = 1.0 / len(selected)
                 decisions[strategy][entry_date] = selected
                 holding = selected.loc[:, ["ticker", "score"]].copy()
                 holding["entry_date"], holding["signal_date"] = entry_date, signal_date
@@ -405,7 +194,9 @@ def run_backtests(prices, features, config):
                 holding_frames.append(holding)
         for strategy in STRATEGIES:
             return_rows.extend(
-                _simulate(market, dates, horizon, strategy, decisions[strategy], capital, fee)
+                portfolio.simulate_portfolio(
+                    market, dates, horizon, strategy, decisions[strategy], capital, fee
+                )
             )
     returns = pd.DataFrame(return_rows)
     return {
@@ -424,21 +215,23 @@ def rank_as_of(prices, features, config, signal_date, horizon):
     the historical simulator. The date must be in its configured OOS period.
     Metadata's w_reversal is the gated-reversal coefficient for this ensemble.
     """
-    market = _prepare(prices, features, config)
-    top_n, _, _ = _settings(config)
-    signal_date = _date(signal_date)
+    market = portfolio.prepare_market(prices, features, config)
+    top_n, _, _ = portfolio.portfolio_settings(config)
+    signal_date = portfolio.normalize_date(signal_date)
     if signal_date not in market.sessions:
         raise ValueError(f"{signal_date.date()} is not an exact available signal session")
     if int(horizon) != horizon or horizon < 1:
         raise ValueError("horizon must be a positive integer")
     horizon = int(horizon)
-    first_signal = _first_signal(market, config)
+    first_signal = portfolio.first_signal(market, config)
     if signal_date < first_signal:
         raise ValueError("signal_date precedes the configured out-of-sample signal period")
-    refit_date = _refit_dates(market, first_signal, signal_date)[-1]
-    labels = _labels(market, horizon)
+    refit_date = portfolio.refit_dates(market, first_signal, signal_date)[-1]
+    labels = portfolio.forward_labels(market, horizon)
     weights, metadata = _fit(labels, market, refit_date, horizon, "ensemble", config)
-    ranking = _ranking(_eligible(market, signal_date, top_n), "ensemble", {"ensemble": weights})
+    ranking = _ranking(
+        portfolio.eligible_as_of(market, signal_date, top_n), "ensemble", {"ensemble": weights}
+    )
     ranking["target_weight"] = np.where(ranking["rank"] <= top_n, 1.0 / top_n, 0.0)
     metadata.update(
         signal_date=signal_date,
